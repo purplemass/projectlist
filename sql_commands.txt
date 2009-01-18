@@ -1,0 +1,5 @@
+sqlite3 taskList
+
+create table list(id smallint, number smallint, name varchar(10));
+insert into list values(1, 1, 'project1');
+insert into list values(2, 2, 'project2');
