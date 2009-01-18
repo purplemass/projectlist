@@ -11,12 +11,17 @@
 # bhat/imgination/17.01.2009: version 1.0
 
 ################################################################
-## DB
+## variables
 ################################################################
 
-//$dbPath = $_SERVER['DOCUMENT_ROOT'].'list/taskList.sqlite2';
-$dbPath = 'taskList.sqlite2';
-$dbHandle = 0;
+$chars_name	= 100;
+$chars_notes	= 256;
+$chars_date	= 10;
+$chars_person	= 10;
+
+//$dbPath	= $_SERVER['DOCUMENT_ROOT'].'list/taskList.sqlite2';
+$dbPath		= 'taskList.sqlite2';
+$dbHandle	= 0;
 
 ################################################################
 ## createDB
@@ -25,6 +30,8 @@ $dbHandle = 0;
 function createDB() {
 
 	global $dbPath, $dbHandle;
+	
+	global $chars_name, $chars_notes, $chars_date, $chars_person;
 	
 	if (!file_exists($dbPath)) {
 /*
@@ -38,15 +45,14 @@ function createDB() {
 		// open database file and return a database handle
 		$dbHandle = sqlite_open($dbPath, 0666, $sqliteError) or die($sqliteError);
 
-		// create page view database table
-		$cmd = 'CREATE TABLE list(
+		// create page view database table //number INTEGER($chars_number),
+		$cmd = "CREATE TABLE list(
 					id INTEGER PRIMARY KEY NOT NULL,
-					number INTEGER(3),
-					name CHAR(256),
-					notes CHAR(256),
-					date CHAR(10),
-					person CHAR(10)
-					)';
+					name CHAR($chars_name),
+					notes CHAR($chars_notes),
+					date CHAR($chars_date),
+					person CHAR($chars_person)
+					)";
 		dbExec($cmd);
 
 		//?? $pageVisit = sqlite_escape_string($_SERVER['PHP_SELF']);
@@ -70,17 +76,29 @@ function insertRecords() {
 
 	global $dbHandle;
 	
-	dbExec("INSERT INTO list (number, name, notes, date, person)
-		VALUES (1, 'PROJECT1', 'some notes', '17-01-2009', 'bob')");
-	dbExec("INSERT INTO list (number, name, notes, date, person)
-		VALUES (2, 'PROJECT2', 'some notes', '17-01-2009', 'bob')");
-	dbExec("INSERT INTO list (number, name, notes, date, person)
-		VALUES (3, 'PROJECT3', 'some notes', '17-01-2009', 'bob')");
+	dbExec("INSERT INTO list (name, notes, date, person)
+		VALUES ('PROJECT1', 'some notes', '17-01-2009', 'bob')");
+	dbExec("INSERT INTO list (name, notes, date, person)
+		VALUES ('PROJECT2', 'some notes', '18-01-2009', 'max')");
+	dbExec("INSERT INTO list (name, notes, date, person)
+		VALUES ('PROJECT3', 'some notes', '19-01-2009', 'andrew')");
 		
 }
 
 ################################################################
-## deleteRecords
+## saveRecord
+################################################################
+
+function saveRecord($id) {
+
+	global $name, $notes, $date, $person;
+	
+	dbExec("UPDATE list SET name='$name', notes='$notes', date='$date', person='$person'
+		WHERE id='$id'");
+
+}
+################################################################
+## deleteRecord
 ################################################################
 
 function deleteRecord($id) {
