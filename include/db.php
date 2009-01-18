@@ -14,13 +14,13 @@
 ## variables
 ################################################################
 
-$chars_name	= 100;
-$chars_notes	= 256;
+$chars_name	= 50;
+$chars_notes	= 255;
 $chars_date	= 10;
 $chars_person	= 10;
 
 //$dbPath	= $_SERVER['DOCUMENT_ROOT'].'list/taskList.sqlite2';
-$dbPath		= 'taskList.sqlite2';
+$dbPath		= 'assets/taskList.sqlite2';
 $dbHandle	= 0;
 
 ################################################################
@@ -83,6 +83,18 @@ function insertRecords() {
 	dbExec("INSERT INTO list (name, notes, date, person)
 		VALUES ('PROJECT3', 'some notes', '19-01-2009', 'andrew')");
 		
+}
+
+################################################################
+## addRecord
+################################################################
+
+function addRecord() {
+
+	global $name, $notes, $date, $person;
+	
+	dbExec("INSERT INTO list (name, notes, date, person)
+		VALUES ('$name', '$notes', '$date', '$person')");
 }
 
 ################################################################

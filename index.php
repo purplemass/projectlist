@@ -75,8 +75,12 @@ switch ($flag) {
 		break;
 
 	case 'save':
-
-		saveRecord($idnum);
+		
+		if ($idnum == -1) {
+			addRecord();
+		} else {
+			saveRecord($idnum);
+		}
 		break;
 		
 	case 'add':
@@ -135,63 +139,84 @@ function p ($s) {
 }
 
 ################################################################
+## rowHTML
+################################################################
+
+function rowHTML($forceEdit, $id, $number, $name, $notes, $date, $person) {
+
+	global $flag;
+	global $hiddenType;
+	global $chars_number, $chars_name, $chars_notes, $chars_date, $chars_person;
+		
+	global $w1, $w2, $w3, $w4, $w5, $w6;
+	
+	$table	= '';
+	
+	$buttons  = "        <input onClick=\"editRecord($id)\" type=\"button\" value=\"Edit\">\n";
+	$buttons .= "        <input onClick=\"deleteRecord($id)\" type=\"button\" value=\"Delete\">\n";
+
+	if ($forceEdit) {
+
+		$name = "<input name=\"name\"  id=\"name\" value=\"$name\"
+			size=\"30\" maxlength=\"$chars_name\" type=\"text\">";
+		#$notes = "<input name=\"notes\"  id=\"notes\" value=\"$notes\"
+		#	size=\"70\" maxlength=\"$chars_notes\" type=\"text\">";
+		$notes = "<textarea name=\"notes\"  id=\"notes\">$notes</textarea>";
+		$date = "<input name=\"date\"  id=\"date\" value=\"$date\"
+			size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
+		$person = "<input name=\"person\"  id=\"person\" value=\"$person\"
+			size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
+
+		$buttons  = "      <input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">\n";
+		$buttons .= "      <input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">\n";
+
+	}
+
+	$table .= "  <tr>\n";
+	$table .= "    <td width=\"$w1\">$number</td>\n";
+	$table .= "    <td width=\"$w2\">$name</td>\n";
+	$table .= "    <td width=\"$w3\">$notes</td>\n";
+	$table .= "    <td width=\"$w4\">$date</td>\n";
+	$table .= "    <td width=\"$w5\" align=\"center\">$person</td>\n";
+	$table .= "    <td width=\"$w6\" class=\"title\">\n";
+	$table .= "$buttons";
+	$table .= "        <input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
+	$table .= "    </td>\n";
+	$table .= "  </tr>\n";
+	
+	return $table;
+}
+
+################################################################
 ## BuildTable
 ################################################################
 
 function BuildTable() {
 
 	global $flag, $idnum;
-	global $hiddenType;
-	global $chars_number, $chars_name, $chars_notes, $chars_date, $chars_person;
-	
-	global $w1, $w2, $w3, $w4, $w5, $w6;
 	
 	$table	= '';
 	$ra	= getRecords();
-
 	$number = 0;
+	
+	if ($flag == 'add') {
+		$flag == 'edit';
+		$table .= rowHTML(1, -1, '', '', '', '', '');
+	}
 	
 	foreach ($ra as $entry) {
 	
 		$number++;
-		$myid	= $entry['id'];
+		$id	= $entry['id'];
 		$name	= $entry['name'];
 		$notes	= $entry['notes'];
 		$date	= $entry['date'];
 		$person	= $entry['person'];
-		
-		$buttons  = "<input onClick=\"editRecord(". $entry['id'] . ")\"   type=\"button\" value=\"Edit\">\n";
-		$buttons .= "<input onClick=\"deleteRecord(". $entry['id'] . ")\" type=\"button\" value=\"Delete\">\n";
-		
-		if ( ( ($flag == 'edit') && ($myid == $idnum) ) || ($flag == 'add') ) {
-		
-			$name = "<input name=\"name\"  id=\"name\" value=\"$name\"
-				size=\"30\" maxlength=\"$chars_name\" type=\"text\">";
-			#$notes = "<input name=\"notes\"  id=\"notes\" value=\"$notes\"
-			#	size=\"70\" maxlength=\"$chars_notes\" type=\"text\">";
-			$notes = "<textarea name=\"notes\"  id=\"notes\">$notes</textarea>";
-			$date = "<input name=\"date\"  id=\"date\" value=\"$date\"
-				size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
-			$person = "<input name=\"person\"  id=\"person\" value=\"$person\"
-				size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
-			
-			$buttons  = "<input onClick=\"saveRecord(". $entry['id'] . ")\"   type=\"button\" value=\"Save\">\n";
-			$buttons .= "<input onClick=\"cancelRecord(". $entry['id'] . ")\" type=\"button\" value=\"Cancel\">\n";
-		
-		}
+	
+		$forceEdit = 0;
+		if ( ($flag == 'edit') && ($id == $idnum) ) $forceEdit = 1;
 
-		$table .= "  <tr>\n";
-		$table .= "    <td width=\"$w1\">$number</td>\n";
-		$table .= "    <td width=\"$w2\">$name</td>\n";
-		$table .= "    <td width=\"$w3\">$notes</td>\n";
-		$table .= "    <td width=\"$w4\">$date</td>\n";
-		$table .= "    <td width=\"$w5\" align=\"center\">$person</td>\n";
-		$table .= "    <td width=\"$w6\" class=\"title\">\n";
-		$table .= "      $buttons\n";
-		$table .= "	 <input type=\"$hiddenType\" name=\"id\" value=\"" . $entry['id'] . "\" size=\"3\">\n";
-		$table .= "    </td>\n";
-		$table .= "  </tr>\n";
-		
+		$table .= rowHTML($forceEdit, $id, $number, $name, $notes, $date, $person);
 	}
 	
 	return $table;

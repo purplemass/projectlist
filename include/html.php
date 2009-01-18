@@ -139,19 +139,17 @@ td {
 <input type="$hiddenType" name="flag" value="$flag">
 <input type="$hiddenType" name="idnum" value="$idnum">
 <table width="$w_t" cellspacing="0">
-	<tr>
-		<td width="$w1" class="title">#</td>
-		<td width="$w2" class="title">Name</td>
-		<td width="$w3" class="title">Notes</td>
-		<td width="$w4" class="title">Date</td>
-		<td width="$w5" class="title">Assigned to</td>
-		<td width="$w6" class="title">&nbsp;</td>
-	</tr>
+  <tr>
+    <td width="$w1" class="title">#</td>
+    <td width="$w2" class="title">Name</td>
+    <td width="$w3" class="title">Notes</td>
+    <td width="$w4" class="title">Date</td>
+    <td width="$w5" class="title">Assigned to</td>
+    <td width="$w6" class="title">&nbsp;</td>
+  </tr>
 $table
-
 </table>
 </form>
-
 </body>
 </html>
 
