@@ -32,7 +32,7 @@ $w1		= 10;
 $w2		= 200;
 $w3		= 400;
 $w4		= 90;
-$w5		= 70;
+$w5		= 80;
 $w6		= 170;
 $w_t		= $w1+$w2+$w3+$w4+$w5+$w6;
 
@@ -96,7 +96,10 @@ switch ($flag) {
 
 $table = BuildTable();
 
-if (!$msg == '') $msg = "<br />$msg<br />";
+if ($msg == '') {
+	if ($flag) $msg = "Operation: $flag record";
+	else $msg = "Click a button below";
+}
 
 include('include/html.php');
 
@@ -128,13 +131,9 @@ function getVar($s, $check=1) {
 function p ($s) {
 
 	if ($s == '') {
-		
 		echo 'Nothing to print!';
-		
 	} else {
-	
 		echo $s . '<br />';
-	
 	}
 }
 
@@ -142,7 +141,7 @@ function p ($s) {
 ## rowHTML
 ################################################################
 
-function rowHTML($forceEdit, $id, $number, $name, $notes, $date, $person) {
+function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $person) {
 
 	global $flag;
 	global $hiddenType;
@@ -171,13 +170,15 @@ function rowHTML($forceEdit, $id, $number, $name, $notes, $date, $person) {
 		$buttons .= "      <input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">\n";
 
 	}
+	
+	if ($showButtons == 0) $buttons = '&nbsp;';
 
 	$table .= "  <tr>\n";
 	$table .= "    <td width=\"$w1\">$number</td>\n";
 	$table .= "    <td width=\"$w2\">$name</td>\n";
-	$table .= "    <td width=\"$w3\">$notes</td>\n";
+	$table .= "    <td width=\"$w3\" valign=\"top\"><pre>$notes</pre></td>\n";
 	$table .= "    <td width=\"$w4\">$date</td>\n";
-	$table .= "    <td width=\"$w5\" align=\"center\">$person</td>\n";
+	$table .= "    <td width=\"$w5\">$person</td>\n";
 	$table .= "    <td width=\"$w6\">\n";
 	$table .= "$buttons";
 	$table .= "        <input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
@@ -201,7 +202,7 @@ function BuildTable() {
 	
 	if ($flag == 'add') {
 		$flag == 'edit';
-		$table .= rowHTML(1, -1, '', '', '', '', '');
+		$table .= rowHTML(1, 1, -1, '', '', '', '', '');
 	}
 	
 	foreach ($ra as $entry) {
@@ -214,9 +215,13 @@ function BuildTable() {
 		$person	= $entry['person'];
 	
 		$forceEdit = 0;
+		$showButtons = 1;
+		
 		if ( ($flag == 'edit') && ($id == $idnum) ) $forceEdit = 1;
-
-		$table .= rowHTML($forceEdit, $id, $number, $name, $notes, $date, $person);
+		if ( ($flag == 'edit') && ($id != $idnum) ) $showButtons = 0;
+		if ($flag == 'add') $showButtons = 0;
+		
+		$table .= rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $person);
 	}
 	
 	return $table;

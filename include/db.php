@@ -57,9 +57,10 @@ function createDB() {
 
 		//?? $pageVisit = sqlite_escape_string($_SERVER['PHP_SELF']);
 		
-		insertRecords();
+		$n = 10;
+		insertRecords($n);
 		
-		return "Database created in '$dbPath' with 3 dummy records";
+		return "Database created in '$dbPath' with $n dummy records";
 	
 	} else {
 	
@@ -72,17 +73,14 @@ function createDB() {
 ## insertRecords
 ################################################################
 
-function insertRecords() {
+function insertRecords($n) {
 
 	global $dbHandle;
 	
-	dbExec("INSERT INTO list (name, notes, date, person)
-		VALUES ('PROJECT1', 'some notes', '17-01-2009', 'bob')");
-	dbExec("INSERT INTO list (name, notes, date, person)
-		VALUES ('PROJECT2', 'some notes', '18-01-2009', 'max')");
-	dbExec("INSERT INTO list (name, notes, date, person)
-		VALUES ('PROJECT3', 'some notes', '19-01-2009', 'andrew')");
-		
+	for ($i=1; $i<($n+1); $i++) {
+		dbExec("INSERT INTO list (name, notes, date, person)
+				VALUES ('PROJECT$i', 'some notes for project $i', '17-01-2009', 'bob')");
+	}	
 }
 
 ################################################################
