@@ -33,6 +33,8 @@ $html = <<<EOF
 
 <script type="text/javascript">
 
+df = document.mainform
+
 function showEdit(n) {
 	if (n > 0) {
 		document.mainform.flag.value = "edit" + n
@@ -46,9 +48,49 @@ function addRecord(n) {
 }
 
 function saveRecord(n) {
-	document.mainform.idnum.value = n
-	document.mainform.flag.value = 'save'
-	document.mainform.submit();
+	
+	msgLayer = document.getElementById('msgDiv');
+	msg = ''
+	
+	fail = 0
+	v = document.getElementById('name');
+	if ( (fail == 0) && (v.value == '') ) {
+		fail = 1
+		msg = "Enter a name first!"
+		v.focus()
+	}
+	
+	v = document.getElementById('notes');
+	if ( (fail == 0) && (v.value == '') ) {
+		fail = 1
+		msg = "Enter some notes first!"
+		v.focus()
+	}
+	
+
+	v = document.getElementById('date');
+	if ( (fail == 0) && (v.value == '') ) {
+		fail = 1
+		msg = "Enter a date (dd-mm-yyy) first!"
+		v.focus()
+	}
+	
+
+	v = document.getElementById('person');
+	if ( (fail == 0) && (v.value == '') ) {
+		fail = 1
+		msg = "Enter a person's name first!"
+		v.focus()
+	}
+
+	msgLayer.innerHTML = msg;
+	//dump(msg.innerHTML)
+	
+	if (fail == 0) {
+		document.mainform.idnum.value = n
+		document.mainform.flag.value = 'save'
+		document.mainform.submit();
+	}
 }
 
 function cancelRecord(n) {
@@ -85,11 +127,21 @@ body {
 	padding: 10px;
 }
 
+#msgDiv {
+	margin-top: 10px;
+	padding: 2px;
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #AAAAAA;
+}
+
 input {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	padding=0;
-	margin=0;
+	padding: 0;
+	margin: 0;
+	width: 72px;
 }
 
 select {
@@ -104,16 +156,13 @@ textarea {
 	height: 50px;
 }
 
-.red {
-	color: red;
-}
-
 .title {
 	font-weight: bold;
+	vertical-align: middle;
 }
 
 table {
-	background1-color: #aa2345;
+	background-color: #FFFFFF;
 }
 
 td {
@@ -130,12 +179,10 @@ td {
 </head>
 <body onLoad="showEdit($editMode)">
 <b><font size="4">$title</font></b>
-<br /><br />$date $time
-<br />$msg<br />
+<br /><br />$displayDate $displayTime
+<br /><div id="msgDiv">$msg&nbsp;</div>
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
-<input type="button" name="add"   value="Add Record" onClick="addRecord()">
 <!-- input type="button" name="logon" value="Log On"     onClick="logOn" -->
-<br />
 <input type="$hiddenType" name="flag" value="$flag">
 <input type="$hiddenType" name="idnum" value="$idnum">
 <table width="$w_t" cellspacing="0">
@@ -145,7 +192,9 @@ td {
     <td width="$w3" class="title">Notes</td>
     <td width="$w4" class="title">Date</td>
     <td width="$w5" class="title">Assigned to</td>
-    <td width="$w6" class="title">&nbsp;</td>
+    <td width="$w6" class="title">
+      <input type="button" name="add"   value="Add Record" onClick="addRecord()">
+    </td>
   </tr>
 $table
 </table>

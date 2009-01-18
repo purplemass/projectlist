@@ -16,15 +16,15 @@
 
 $thisScript	= $_SERVER['PHP_SELF'];
 
-$date		= strftime("%d-%m-%Y");
-$time		= strftime("%H:%M:%S");
+$displayDate	= strftime("%d-%m-%Y");
+$displayTime	= strftime("%H:%M:%S");
 
 $title		= 'DC-Technology Task List';
 $msg		= '';
 
 $R		= '<br />';
 
-$hiddenType	= 'text';
+$hiddenType	= 'hidden';
 
 $msg		= ''; //"FLAG: $flag IDNUM: $idnum";
 
@@ -33,7 +33,7 @@ $w2		= 200;
 $w3		= 400;
 $w4		= 90;
 $w5		= 70;
-$w6		= 180;
+$w6		= 170;
 $w_t		= $w1+$w2+$w3+$w4+$w5+$w6;
 
 ################################################################
@@ -96,7 +96,7 @@ switch ($flag) {
 
 $table = BuildTable();
 
-if (!$msg == '') $msg = '<br /><span class="red">' . $msg . '</span><br />';
+if (!$msg == '') $msg = "<br />$msg<br />";
 
 include('include/html.php');
 
@@ -178,7 +178,7 @@ function rowHTML($forceEdit, $id, $number, $name, $notes, $date, $person) {
 	$table .= "    <td width=\"$w3\">$notes</td>\n";
 	$table .= "    <td width=\"$w4\">$date</td>\n";
 	$table .= "    <td width=\"$w5\" align=\"center\">$person</td>\n";
-	$table .= "    <td width=\"$w6\" class=\"title\">\n";
+	$table .= "    <td width=\"$w6\">\n";
 	$table .= "$buttons";
 	$table .= "        <input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
 	$table .= "    </td>\n";
