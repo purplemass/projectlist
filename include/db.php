@@ -27,6 +27,8 @@ $dbHandle	= 0;
 ## createDB
 ################################################################
 
+//include_once('sqlite/sqlite_driver.php');
+
 function createDB() {
 
 	global $dbPath, $dbHandle;

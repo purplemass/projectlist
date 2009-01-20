@@ -14,13 +14,17 @@
 ## variables
 ################################################################
 
-$focusName	= 0;
-$topButtons	= "<input type=\"button\" name=\"add\" value=\"Add Record\" onClick=\"addRecord()\">";
+$focusName	 = 0;
+$topButtons	 = "<input type=\"button\" name=\"add\" value=\"Add Record\" onClick=\"addRecord()\">&nbsp;";
+$topButtons	.= "<input type=\"button\" name=\"logout\" value=\"Logout\" onClick=\"logOut()\">";
 
-if ( ($flag == 'edit') || ($flag == 'add') ) {
-	$topButtons	= '&nbsp';
+if ( ($flag == 'edit') || ($flag == 'add') || ($loggedin != 1) ) {
+	$topButtons	= "<input type=\"button\" name=\"login\" value=\"Login\" onClick=\"logIn()\">";
 	$focusName	= 1;
 }
+
+$msgDiv = "<div id=\"msgDiv\">$msg&nbsp;</div>";
+if ($msg == '') $msgDiv = '';
 
 ################################################################
 ## HTML
@@ -41,19 +45,57 @@ $html = <<<EOF
 
 <script type="text/javascript">
 
-df = document.mainform
-
 function showEdit(n) {
 	if (n > 0) {
 		v = document.getElementById('name');
+		if (v == null) return
 		v.focus()
 		document.mainform.flag.value = "edit" + n
 	}
 }
 
+function logIn() {
+	var pw = prompt("Enter password", "");
+	if (pw == 'dct') {
+	document.mainform.loggedin.value = '1'
+	document.mainform.flag.value = ''
+	}
+	document.mainform.submit();
+}
+
+function logOut() {
+	document.mainform.loggedin.value = ''
+	cancelRecord(0)
+}
+
 function addRecord(n) {
 	document.mainform.idnum.value = ''
 	document.mainform.flag.value = 'add'
+	document.mainform.submit();
+}
+
+function cancelRecord(n) {
+	document.mainform.idnum.value = n
+	document.mainform.flag.value = 'cancel'
+	document.mainform.submit();
+}
+
+function deleteRecord(n) {
+	msgLayer = document.getElementById('msgDiv');
+	s = "Delete Project #" + n + "? <a href=\"#\" onClick=\"deleteRecordNow(" + n + ")\">YES</a> "
+	s = s + "<a href=\"#\" onClick=\"cancelRecord(0)\">NO</a>"
+	msgLayer.innerHTML = s;
+}
+
+function deleteRecordNow(n) {
+	document.mainform.idnum.value = n
+	document.mainform.flag.value = 'delete'
+	document.mainform.submit();
+}
+
+function editRecord(n) {
+	document.mainform.idnum.value = n
+	document.mainform.flag.value = 'edit'
 	document.mainform.submit();
 }
 
@@ -77,7 +119,6 @@ function saveRecord(n) {
 		v.focus()
 	}
 	
-
 	v = document.getElementById('date');
 	if ( (fail == 0) && (v.value == '') ) {
 		fail = 1
@@ -85,7 +126,6 @@ function saveRecord(n) {
 		v.focus()
 	}
 	
-
 	v = document.getElementById('person');
 	if ( (fail == 0) && (v.value == '') ) {
 		fail = 1
@@ -101,31 +141,6 @@ function saveRecord(n) {
 		document.mainform.flag.value = 'save'
 		document.mainform.submit();
 	}
-}
-
-function cancelRecord(n) {
-	document.mainform.idnum.value = ''
-	document.mainform.flag.value = 'cancel'
-	document.mainform.submit();
-}
-
-function deleteRecord(n) {
-	msgLayer = document.getElementById('msgDiv');
-	s = "Delete Project #" + n + "? <a href=\"#\" onClick=\"deleteRecordNow(" + n + ")\">YES</a> "
-	s = s + "<a href=\"\" onClick=\"cancelRecord()\">NO</a>"
-	msgLayer.innerHTML = s;
-}
-
-function deleteRecordNow(n) {
-	document.mainform.idnum.value = n
-	document.mainform.flag.value = 'delete'
-	document.mainform.submit();
-}
-
-function editRecord(n) {
-	document.mainform.idnum.value = n
-	document.mainform.flag.value = 'edit'
-	document.mainform.submit();
 }
 
 </script>
@@ -145,8 +160,8 @@ body {
 }
 
 a {
-	color: white;
-	text-decoration: none;
+	color: red;
+	text-decoration: underline;
 }
 
 input, select {
@@ -162,7 +177,8 @@ textarea {
 }
 
 table {
-	border-top: 3px #6699CC solid;
+	font-size: 10px;
+	border-top1: 3px #6699CC solid;
 	background-color: #FFFFFF;
 }
 
@@ -182,6 +198,7 @@ td {
 pre {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 10px;
+	margin: 0;
 }
 
 .title {
@@ -194,22 +211,22 @@ pre {
 }
 
 /*
-	position: absolute;
-	top: 30px;
-	left: 816px;
+	float: right;
+	background-color: #6699CC;
 */
 
 #msgDiv {
-float: right;
-	width: 160px;
+	position: absolute;
+	top: 30px;
+	left: 810px;
+	width: 170px;
 	height: 14px;
-	background-color: #6699CC;
-	color: #FFFFFF;
+	color: #FF0000;
 	margin-top: 10px;
 	padding: 5px;
 	font-size: 10px;
 	font-weight: bold;
-	text-1align: center;
+	text-align: left;
 	vertical-align: center;
 }
 
@@ -218,26 +235,27 @@ float: right;
 </head>
 <body onLoad="showEdit($focusName)">
 <b><font size="4">$title</font></b>
-<div id="msgDiv">$msg&nbsp;</div>
+$msgDiv
 <br /><br />$displayDate $displayTime
 <br /><br />
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
 <!-- input type="button" name="logon" value="Log On" onClick="logOn" -->
 <input type="$hiddenType" name="flag" value="$flag">
 <input type="$hiddenType" name="idnum" value="$idnum">
+<input type="$hiddenType" name="loggedin" value="$loggedin">
 <table cellspacing="0"><!-- width="$w_t" -->
   <tr>
     <td width="$w1" class="title">#</td>
     <td width="$w2" class="title">Name</td>
     <td width="$w3" class="title">Notes</td>
-    <td width="$w4" class="title">Date</td>
+    <td width="$w4" class="title">Delivery&nbsp;date</td>
     <td width="$w5" class="title">Assigned&nbsp;to</td>
     <td width="$w6" class="title">
       $topButtons
     </td>
   </tr>
-$table
 </table>
+$table
 </form>
 </body>
 </html>

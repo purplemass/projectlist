@@ -47,8 +47,9 @@ $msg = createDB();
 ## form variables
 ################################################################
 
-$flag	= getVar('flag', 0);
-$idnum	= getVar('idnum', 0);
+$flag		= getVar('flag', 0);
+$idnum		= getVar('idnum', 0);
+$loggedin	= getVar('loggedin', 0);
 
 if ($flag == 'save') {
 
@@ -56,6 +57,7 @@ if ($flag == 'save') {
 	$notes	= getVar('notes');
 	$date	= getVar('date');
 	$person	= getVar('person');
+	
 }
 
 ################################################################
@@ -70,6 +72,11 @@ switch ($flag) {
 		break;
 
 	case 'edit':
+
+		//nothin here
+		break;
+		
+	case 'cancel':
 
 		//nothin here
 		break;
@@ -97,8 +104,8 @@ switch ($flag) {
 $table = BuildTable();
 
 if ($msg == '') {
-	if ($flag) $msg = "Operation: $flag record";
-	else $msg = "Click a button below";
+	if ($flag) $msg = ' '; //"Operation: $flag record [$loggedin]";
+	else $msg = ' '; //'Click a button below';
 }
 
 include('include/html.php');
@@ -173,7 +180,7 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	
 	if ($showButtons == 0) $buttons = '&nbsp;';
 
-	$table .= "  <tr>\n";
+	$table .= "  <table cellspacing=\"0\"><tr>\n";
 	$table .= "    <td width=\"$w1\">$number</td>\n";
 	$table .= "    <td width=\"$w2\">$name</td>\n";
 	$table .= "    <td width=\"$w3\" valign=\"top\"><pre>$notes</pre></td>\n";
@@ -183,7 +190,7 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	$table .= "$buttons";
 	$table .= "        <input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
 	$table .= "    </td>\n";
-	$table .= "  </tr>\n";
+	$table .= "  </tr></table>\n";
 	
 	return $table;
 }
@@ -194,7 +201,7 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 
 function BuildTable() {
 
-	global $flag, $idnum;
+	global $flag, $idnum, $loggedin;
 	
 	$table	= '';
 	$ra	= getRecords();
@@ -215,11 +222,13 @@ function BuildTable() {
 		$person	= $entry['person'];
 	
 		$forceEdit = 0;
-		$showButtons = 1;
+		$showButtons = 0;
+		
+		if ($loggedin == 1) $showButtons = 1;
 		
 		if ( ($flag == 'edit') && ($id == $idnum) ) $forceEdit = 1;
 		if ( ($flag == 'edit') && ($id != $idnum) ) $showButtons = 0;
-		if ($flag == 'add') $showButtons = 0;
+		if ( ($flag == 'add')  ) $showButtons = 0;
 		
 		$table .= rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $person);
 	}
