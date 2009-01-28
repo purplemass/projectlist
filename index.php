@@ -33,8 +33,9 @@ $w2		= 200;
 $w3		= 400;
 $w4		= 90;
 $w5		= 80;
-$w6		= 170;
-$w_t		= $w1+$w2+$w3+$w4+$w5+$w6;
+$w6		= 120;
+$w7		= 50;
+$w_t	= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
 
 ################################################################
 ## DB
@@ -120,6 +121,8 @@ function getVar($s, $check=1) {
 
 	global $msg, $flag, $idnum;
 	
+	if (!($_REQUEST[$s])) return '';
+
 	$r = strip_tags(htmlentities($_REQUEST[$s]));
 	
 	if ( !$r && $check ) {
@@ -154,45 +157,55 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	global $hiddenType;
 	global $chars_number, $chars_name, $chars_notes, $chars_date, $chars_person;
 		
-	global $w1, $w2, $w3, $w4, $w5, $w6;
+	global $w1, $w2, $w3, $w4, $w5, $w6, $w7, $w_t;
 	
-	$table	= '';
+	$div		= '';
 	
-	$buttons  = "        <input onClick=\"editRecord($id)\" type=\"button\" value=\"Edit\">\n";
-	$buttons .= "        <input onClick=\"deleteRecord($id)\" type=\"button\" value=\"Delete\">\n";
-
+	$button1 = "<a href=\"#\" class=\"buttons\" onClick=\"editRecord($id)\">Edit</a>";
+	$button2 = "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecord($id)\">Delete</a>";
+	
 	if ($forceEdit) {
 
 		$name = "<input name=\"name\"  id=\"name\" value=\"$name\"
-			size=\"30\" maxlength=\"$chars_name\" type=\"text\">";
-		#$notes = "<input name=\"notes\"  id=\"notes\" value=\"$notes\"
-		#	size=\"70\" maxlength=\"$chars_notes\" type=\"text\">";
+			size=\"25\" maxlength=\"$chars_name\" type=\"text\">";
 		$notes = "<textarea name=\"notes\"  id=\"notes\">$notes</textarea>";
 		$date = "<input name=\"date\"  id=\"date\" value=\"$date\"
 			size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
 		$person = "<input name=\"person\"  id=\"person\" value=\"$person\"
 			size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
 
-		$buttons  = "      <input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">\n";
-		$buttons .= "      <input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">\n";
+		$button1 = "<input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">";
+		$button2 = "<input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">";
+		
+		$button1 = "<a href=\"#\" class=\"buttons\" onClick=\"saveRecord($id)\">Save</a>";
+		$button2 = "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord($id)\">Cancel</a>";
+	
 
 	}
 	
-	if ($showButtons == 0) $buttons = '&nbsp;';
+	if ($showButtons == 0) {
+		$button1 = '&nbsp;';
+		$button2 = '&nbsp;';
+	}
 
-	$table .= "  <table cellspacing=\"0\"><tr>\n";
-	$table .= "    <td width=\"$w1\">$number</td>\n";
-	$table .= "    <td width=\"$w2\">$name</td>\n";
-	$table .= "    <td width=\"$w3\" valign=\"top\"><pre>$notes</pre></td>\n";
-	$table .= "    <td width=\"$w4\">$date</td>\n";
-	$table .= "    <td width=\"$w5\">$person</td>\n";
-	$table .= "    <td width=\"$w6\">\n";
-	$table .= "$buttons";
-	$table .= "        <input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
-	$table .= "    </td>\n";
-	$table .= "  </tr></table>\n";
+	$div	.= "<div class=\"projectDiv\" id=\"projectDiv$id\">\n";
 	
-	return $table;
+	$div	.= "<input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
+	$div	.= "  <table cellspacing=\"0\">\n";
+	$div	.= "    <tr>\n";
+	$div	.= "      <td width=\"$w1\">$number</td>\n";
+	$div	.= "      <td width=\"$w2\">$name</td>\n";
+	$div	.= "      <td width=\"$w3\" valign=\"top\"><pre>$notes</pre></td>\n";
+	$div	.= "      <td width=\"$w4\">$date</td>\n";
+	$div	.= "      <td width=\"$w5\">$person</td>\n";
+	$div	.= "      <td width=\"$w6\">$button1 $button2</td>\n";
+	$div	.= "      <td width=\"$w7\">&nbsp;</td>\n";
+	$div	.= "    </tr>\n";
+	$div	.= "  </table>\n";
+	
+	$div	.= "</div>\n";
+	
+	return $div;
 }
 
 ################################################################
@@ -206,7 +219,22 @@ function BuildTable() {
 	$table	= '';
 	$ra	= getRecords();
 	$number = 0;
-	
+
+	/*
+	$table	.= "<table cellspacing="0"><!-- width="$w_t" -->
+	$$table	.= "  <tr>
+	$table	.= "    <td width="$w1" class="title">#</td>
+	$table	.= "    <td width="$w2" class="title">Name</td>
+	$table	.= "    <td width="$w3" class="title">Notes</td>
+	$table	.= "    <td width="$w4" class="title">Delivery&nbsp;date</td>
+	$table	.= "    <td width="$w5" class="title">Assigned&nbsp;to</td>
+	$table	.= "    <td width="$w6" class="title">
+	$$table	.= "      $topButtons
+	$$table	.= "    </td>
+	$table	.= "  </tr>
+	$table	.= "</table>
+	*/
+		
 	if ($flag == 'add') {
 		$flag == 'edit';
 		$table .= rowHTML(1, 1, -1, '', '', '', '', '');
