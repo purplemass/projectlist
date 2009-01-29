@@ -32,7 +32,7 @@ if ($loggedin) {
 
 	$focusName	= 1;
 	if ( ($flag != 'edit') && ($flag != 'add')) {
-		$topButton1	= "<a href=\"#\" class=\"buttons\" onClick=\"addRecord()\">Add Project</a>";
+		$topButton2	= "<a href=\"#\" class=\"buttons\" onClick=\"addRecord()\">Add Project</a>";
 		$focusName	= 0;
 	}
 	
@@ -80,18 +80,17 @@ $html = <<<EOF
 </head>
 <body onLoad="showEdit($focusName)">
 <div id="pageTitle">
-<p id="title"><h2>$title</h2></p>
-<p id="date">$displayDate $displayTime</p>
+<h2>$title</h2>
+$displayDate $displayTime
 </div>
 <div id="msgDiv">$msg</div>
-<div id="logIn">
-$loginForm
-</div>
+<div id="logIn">$loginForm</div>
+<div id="pageBody">
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
 <input type="$hiddenType" name="flag" value="$flag">
 <input type="$hiddenType" name="idnum" value="$idnum">
 <input type="$hiddenType" name="loggedin" value="$loggedin">
-<table cellspacing="0"><!-- width="$w_t" -->
+<table width="$w_t" cellspacing="0"><!-- width="$w_t" -->
   <tr>
     <td width="$w1" class="tableTitle">#</td>
     <td width="$w2" class="tableTitle">Name</td>
@@ -101,9 +100,10 @@ $loginForm
     <td width="$w6" class="tableTitle">$topButton1</td>
     <td width="$w7" class="tableTitle">$topButton2</td>
   </tr>
-</table>
 $table
+</table>
 </form>
+</div>
 </body>
 </html>
 

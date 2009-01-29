@@ -1,7 +1,13 @@
 
+var lastID = -1
+
 /* ********************************************** */
 
 $(document).ready(function(){ 
+
+	//v = $(myLay).css("top")
+	//$("#msgDiv").css("top", v  + "px");
+
 });
 
 /* ********************************************** */
@@ -43,14 +49,15 @@ function cancelRecord(n) {
 
 function deleteRecord(n) {
 
-	msgLayer = document.getElementById('msgDiv');
-	s = "Delete Project #" + n + "? <a href=\"#\" onClick=\"deleteRecordNow(" + n + ")\">YES</a> "
-	s = s + "<a href=\"#\" onClick=\"cancelRecord(0)\">NO</a>"
+	if (n == lastID) return
+	s = ">>>"
+	s = s + "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecordNow(" + n + ")\">YES</a> "
+	s = s + "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord(0)\">NO</a>"
+	
+	msgLayer = document.getElementById('msgDiv' + n);
 	msgLayer.innerHTML = s;
 	
-	myLay = ('#projectDiv'+n)
-	v = $(myLay).css("top")
-	$("#msgDiv").css("top", v  + "px"); 
+	deleteLast(n) 
 }
 
 function deleteRecordNow(n) {
@@ -65,9 +72,17 @@ function editRecord(n) {
 	document.mainform.submit();
 }
 
+function deleteLast(n) {
+	if (lastID > -1) {
+		lastDiv = document.getElementById('msgDiv'+lastID)
+		lastDiv.innerHTML = '';
+	}
+	
+	lastID = n
+}
+
 function saveRecord(n) {
 	
-	msgLayer = document.getElementById('msgDiv');
 	msg = ''
 	
 	fail = 0
@@ -85,10 +100,10 @@ function saveRecord(n) {
 		v.focus()
 	}
 	
-	v = document.getElementById('date');
+	v = document.getElementById('delivery_date');
 	if ( (fail == 0) && (v.value == '') ) {
 		fail = 1
-		msg = "Enter a date first!"
+		msg = "Enter a delivery date first!"
 		v.focus()
 	}
 	
@@ -99,6 +114,9 @@ function saveRecord(n) {
 		v.focus()
 	}
 
+	deleteLast(n) 
+	
+	msgLayer = document.getElementById('msgDiv' + n);
 	msgLayer.innerHTML = msg;
 	msgLayer.top = 125 + 'px';
 	//dump(msg.innerHTML)

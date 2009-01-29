@@ -7,13 +7,12 @@
 body {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 10px;
-	padding: 10px;
-	background-color: #777777;
+	background-color: #FFFFFF;
 	color: black;
 }
 
 a {
-	color: #FFFFFF;
+	color: #111111;
 	text-decoration: underline;
 }
 
@@ -25,13 +24,21 @@ input, select {
 textarea {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 10px;
-	width: 350px;
+	width: 380px;
 	height: 50px;
+}
+
+pre {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 10px;
+	margin: 0;
+	width: 400px;
+	height: auto;
+	overflow: auto;
 }
 
 table {
 	font-size: 10px;
-	width: 950px;
 }
 
 tr {
@@ -39,48 +46,32 @@ tr {
 }
 
 td {
-	border: 1px #CCCCCC solid;
+	border-bottom: 1px #CCCCCC solid;
 	border-collapse: collapse;
 	border-spacing: 0px;
 	margin: 0;
-	padding: 2px;
-	vertical-align: middle;
-}
-
-pre {
-	font-family: Verdana, Helvetica, Arial, sans-serif;
-	font-size: 10px;
-	margin: 0;
-}
-
-.tableTitle {
-	font-weight: bold;
-	vertical-align: middle;
-}
-
-.buttons {
-	padding: 2px;
-	margin-top: 0px;
-	background-color: #444444;
-	color: #CCCCCC;
-	text-decoration: none;
-	font-size: 11px;
-	font-weight: bold;
+	padding: 5px 5px 2px 2px;
+	vertical-align: top;
 }
 
 /*
 *************************
 DIVs
-
 *************************
 */
 
 #pageTitle {
-	height: 60px;
+	position: relative;
+	height: 40px;
+	padding: 10px;
+	background-color: #CCCCCC;
+	color: #000000;
 }
 
-#pageTitle date {
-	padding-top: 100px;
+#pageBody {
+	position: relative;
+	padding: 10px;
+	background-color: #FFFFFF;
 }
 
 #logIn {
@@ -95,25 +86,35 @@ DIVs
 }
 
 /*
-	float: right;
-	background-color: #6699CC;
+*************************
+NEW STYLES
+*************************
 */
 
-#msgDiv {
-	position: absolute;
-	top: 30px;
-	left: 810px;
-	width: 170px;
-	height: 14px;
-	color: #FFFFFF;
-	margin-top: 10px;
-	padding: 5px;
-	font-size: 10px;
+.tableTitle {
 	font-weight: bold;
-	text-align: left;
 	vertical-align: middle;
 }
 
-.projectDiv2 {
-	background-color: maroon;
+.buttons {
+	padding: 2px;
+	margin-top: 0px;
+	background-color: #444444;
+	border: 1px #CCCCCC solid;
+	color: #CCCCCC;
+	text-decoration: none;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.msgDiv {
+	margin-top: 6px;
+	margin-bottom: 10px;
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.msgDiv a {
+	color: #FF0000;
+	text-decoration: none;
 }

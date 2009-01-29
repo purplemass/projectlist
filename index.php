@@ -33,8 +33,8 @@ $w2		= 200;
 $w3		= 400;
 $w4		= 90;
 $w5		= 80;
-$w6		= 120;
-$w7		= 50;
+$w6		= 50;
+$w7		= 120;
 $w_t	= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
 
 ################################################################
@@ -56,7 +56,7 @@ if ($flag == 'save') {
 
 	$name	= getVar('name');
 	$notes	= getVar('notes');
-	$date	= getVar('date');
+	$date	= getVar('delivery_date');
 	$person	= getVar('person');
 	
 }
@@ -166,19 +166,20 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	
 	if ($forceEdit) {
 
-		$name = "<input name=\"name\"  id=\"name\" value=\"$name\"
-			size=\"25\" maxlength=\"$chars_name\" type=\"text\">";
-		$notes = "<textarea name=\"notes\"  id=\"notes\">$notes</textarea>";
-		$date = "<input name=\"date\"  id=\"date\" value=\"$date\"
-			size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
-		$person = "<input name=\"person\"  id=\"person\" value=\"$person\"
-			size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
+		$number		= "&nbsp";
+		$name 		= "<input name=\"name\"  id=\"name\" value=\"$name\"
+					size=\"25\" maxlength=\"$chars_name\" type=\"text\">";
+		$notes		= "<textarea name=\"notes\"  id=\"notes\">$notes</textarea>";
+		$date		= "<input name=\"delivery_date\"  id=\"delivery_date\" value=\"$date\"
+					size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
+		$person		= "<input name=\"person\"  id=\"person\" value=\"$person\"
+					size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
 
-		$button1 = "<input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">";
-		$button2 = "<input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">";
+		$button1	= "<input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">";
+		$button2	= "<input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">";
 		
-		$button1 = "<a href=\"#\" class=\"buttons\" onClick=\"saveRecord($id)\">Save</a>";
-		$button2 = "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord($id)\">Cancel</a>";
+		$button1	= "<a href=\"#\" class=\"buttons\" onClick=\"saveRecord($id)\">Save</a>";
+		$button2	= "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord($id)\">Cancel</a>";
 	
 
 	}
@@ -188,22 +189,22 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 		$button2 = '&nbsp;';
 	}
 
-	$div	.= "<div class=\"projectDiv\" id=\"projectDiv$id\">\n";
+	#$div	.= "<div class=\"projectDiv\" id=\"projectDiv$id\">\n";
+	#$div	.= "<input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
+	#$div	.= "  <table width=\"$w_t\" cellspacing=\"0\">\n";
 	
-	$div	.= "<input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
-	$div	.= "  <table cellspacing=\"0\">\n";
 	$div	.= "    <tr>\n";
 	$div	.= "      <td width=\"$w1\">$number</td>\n";
 	$div	.= "      <td width=\"$w2\">$name</td>\n";
 	$div	.= "      <td width=\"$w3\" valign=\"top\"><pre>$notes</pre></td>\n";
 	$div	.= "      <td width=\"$w4\">$date</td>\n";
 	$div	.= "      <td width=\"$w5\">$person</td>\n";
-	$div	.= "      <td width=\"$w6\">$button1 $button2</td>\n";
-	$div	.= "      <td width=\"$w7\">&nbsp;</td>\n";
+	$div	.= "      <td width=\"$w6\">&nbsp;</td>\n";
+	$div	.= "      <td width=\"$w7\">$button1 $button2<div class=\"msgDiv\" id=\"msgDiv$id\"></div></td>\n";
 	$div	.= "    </tr>\n";
-	$div	.= "  </table>\n";
 	
-	$div	.= "</div>\n";
+	#$div	.= "  </table>\n";
+	#$div	.= "</div>\n";
 	
 	return $div;
 }
@@ -219,22 +220,7 @@ function BuildTable() {
 	$table	= '';
 	$ra	= getRecords();
 	$number = 0;
-
-	/*
-	$table	.= "<table cellspacing="0"><!-- width="$w_t" -->
-	$$table	.= "  <tr>
-	$table	.= "    <td width="$w1" class="title">#</td>
-	$table	.= "    <td width="$w2" class="title">Name</td>
-	$table	.= "    <td width="$w3" class="title">Notes</td>
-	$table	.= "    <td width="$w4" class="title">Delivery&nbsp;date</td>
-	$table	.= "    <td width="$w5" class="title">Assigned&nbsp;to</td>
-	$table	.= "    <td width="$w6" class="title">
-	$$table	.= "      $topButtons
-	$$table	.= "    </td>
-	$table	.= "  </tr>
-	$table	.= "</table>
-	*/
-		
+	
 	if ($flag == 'add') {
 		$flag == 'edit';
 		$table .= rowHTML(1, 1, -1, '', '', '', '', '');
