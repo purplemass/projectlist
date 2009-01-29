@@ -11,6 +11,12 @@
 # bhat/imgination/17.01.2009: version 1.0
 
 ################################################################
+## init
+################################################################
+
+include_once('include/common.php');
+
+################################################################
 ## variables
 ################################################################
 
@@ -48,7 +54,7 @@ function createDB() {
 		$dbHandle = sqlite_open($dbPath, 0666, $sqliteError) or die($sqliteError);
 
 		// create page view database table //number INTEGER($chars_number),
-		$cmd = "CREATE TABLE list(
+		$cmd = "CREATE TABLE list (
 					id INTEGER PRIMARY KEY NOT NULL,
 					name CHAR($chars_name),
 					notes CHAR($chars_notes),
@@ -57,6 +63,14 @@ function createDB() {
 					)";
 		dbExec($cmd);
 
+		$cmd = "CREATE TABLE user (
+					id INTEGER PRIMARY KEY NOT NULL,
+					username CHAR($chars_name),
+					password CHAR($chars_name),
+					date CHAR($chars_date)
+					)";
+		dbExec($cmd);
+		
 		//?? $pageVisit = sqlite_escape_string($_SERVER['PHP_SELF']);
 		
 		$n = 10;
@@ -79,6 +93,8 @@ function insertRecords($n) {
 
 	global $dbHandle;
 	
+	dbExec("INSERT INTO user (username, password, date)
+				VALUES ('admin', 'dct', '28-01-2009')");
 	for ($i=1; $i<($n+1); $i++) {
 		dbExec("INSERT INTO list (name, notes, date, person)
 				VALUES ('PROJECT$i', 'some notes for project $i', '17-01-2009', 'bob')");
@@ -115,6 +131,27 @@ function saveRecord($id) {
 
 function deleteRecord($id) {
 	dbExec("DELETE FROM list WHERE id=$id");
+}
+
+################################################################
+## getUserDetails
+################################################################
+
+function getUserDetails($s) {
+
+	global $dbPath, $dbHandle;
+	
+	if ($dbHandle == 0) $dbHandle = sqlite_open($dbPath, 0666, $sqliteError) or die("SQL error: $sqliteError");
+	
+	#$ra = sqlite_array_query($dbHandle, 'SELECT * FROM user WHERE username=\'$s\'');
+	$ra = sqlite_array_query($dbHandle, "SELECT * FROM user where username='$s'");
+
+	#echo "<pre>\n";
+	#print_r($ra);
+	#echo "<pre>\n";
+		
+	return $ra;
+	
 }
 
 ################################################################

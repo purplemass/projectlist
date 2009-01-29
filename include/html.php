@@ -36,18 +36,20 @@ if ($loggedin) {
 		$focusName	= 0;
 	}
 	
+	$username = $_SESSION['user'];
+	
 	$loginForm = <<<EOF
-You are now logged in . . . .  . . . . . . . 
+You are logged in as <strong>$username</strong>. Click to  
 <a href="#" class="buttons" onClick="logOut()">Logout</a>
 EOF;
 
 } else {
 
 	$loginForm = <<<EOF
-<form action="#">
+<form method="POST" action="login.php" name="loginform" id="loginform">
 <p>
-  <label for="username">Username:</label> <input type="text" id="username" size="5" maxlength=\"10\" />
-  <label for="password">Password:</label> <input type="password" id="password" size="5" maxlength=\"10\" />
+  <label for="username">Username:</label> <input type="text" name="username" id="username" size="5" maxlength=\"10\" />
+  <label for="password">Password:</label> <input type="password" name="password" id="password" size="5" maxlength=\"10\" />
   <a href="#" class="buttons" onClick="logIn()">Login</a>
 </p>
 </form>
@@ -83,7 +85,6 @@ $html = <<<EOF
 <h2>$title</h2>
 $displayDate $displayTime
 </div>
-<div id="msgDiv">$msg</div>
 <div id="logIn">$loginForm</div>
 <div id="pageBody">
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
@@ -104,6 +105,7 @@ $table
 </table>
 </form>
 </div>
+<div id="msgDiv" class="msgDiv">$msg</div>
 </body>
 </html>
 

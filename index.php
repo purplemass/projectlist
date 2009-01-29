@@ -11,18 +11,19 @@
 # bhat/imgination/16.01.2009: version 1.0
 
 ################################################################
+## init
+################################################################
+
+include_once('include/common.php');
+include_once('include/db.php');
+
+################################################################
 ## variables
 ################################################################
 
 $thisScript	= $_SERVER['PHP_SELF'];
 
-$displayDate	= strftime("%d-%m-%Y");
-$displayTime	= strftime("%H:%M:%S");
-
 $title		= 'DC-Technology Task List';
-$msg		= '';
-
-$R		= '<br />';
 
 $hiddenType	= 'hidden';
 
@@ -35,22 +36,14 @@ $w4		= 90;
 $w5		= 80;
 $w6		= 50;
 $w7		= 120;
-$w_t	= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
-
-################################################################
-## DB
-################################################################
-
-include('include/db.php');
-$msg = createDB();
+$w_t		= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
 
 ################################################################
 ## form variables
 ################################################################
 
-$flag		= getVar('flag', 0);
-$idnum		= getVar('idnum', 0);
-$loggedin	= getVar('loggedin', 0);
+$flag	= getVar('flag', 0);
+$idnum	= getVar('idnum', 0);
 
 if ($flag == 'save') {
 
@@ -62,10 +55,46 @@ if ($flag == 'save') {
 }
 
 ################################################################
+## sessions
+################################################################
+
+$session_timer = 60*5; # seconds!!!
+
+session_cache_limiter('private');
+session_cache_expire (180);
+session_start();
+
+$loggedin = isset($_SESSION['loggedin']);
+
+if(empty($_SESSION['loggedin']) || !isset($_SESSION['time'])) {
+
+	destroySession();
+
+} elseif ( (isset($_SESSION['time']) && ( (mktime() - $_SESSION['time']) > $session_timer) )) { 
+
+	destroySession();
+	$msg = "Logged out";
+
+} else {
+
+	$_SESSION['time'] = mktime();
+
+}
+
+################################################################
 ## process
 ################################################################
 
+$r = createDB();
+if ($r) $msg = $r;
+
 switch ($flag) {
+
+	case 'logout':
+		session_destroy();
+		$_SESSION = null;
+		$loggedin = 0;
+		break;
 
 	case 'delete':
 
@@ -105,34 +134,13 @@ switch ($flag) {
 $table = BuildTable();
 
 if ($msg == '') {
-	if ($flag) $msg = ' '; //"Operation: $flag record [$loggedin]";
-	else $msg = ' '; //'Click a button below';
+	#$msg = "SESSION: " . $_SESSION['loggedin']; 
+	#. ">>>>" . (mktime() - $_SESSION['time']);
 }
 
 include('include/html.php');
 
 echo $html;
-
-################################################################
-## p
-################################################################
-
-function getVar($s, $check=1) {
-
-	global $msg, $flag, $idnum;
-	
-	if (!($_REQUEST[$s])) return '';
-
-	$r = strip_tags(htmlentities($_REQUEST[$s]));
-	
-	if ( !$r && $check ) {
-		$msg .= "You must fill in all the values - '$s' is missing<br />";
-		$flag	= 'edit';
-		return '';
-	} else {
-		return $r;
-	}
-}
 
 ################################################################
 ## p
@@ -248,6 +256,24 @@ function BuildTable() {
 	}
 	
 	return $table;
+}
+
+################################################################
+## destroySession
+################################################################
+
+function destroySession() {
+
+	global $flag, $loggedin;
+	
+	#unset($_SESSION['loggedin']);
+	#unset($_SESSION['time']);
+	
+	session_destroy();
+	$_SESSION = null;
+	$loggedin = 0;
+	$flag = '';
+	
 }
 
 ################################################################

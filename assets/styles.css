@@ -85,6 +85,12 @@ DIVs
 	text-align: center;
 }
 
+#msgDiv {
+	position: absolute;
+	left:215px;
+	top: 35px;
+}
+
 /*
 *************************
 NEW STYLES

@@ -21,16 +21,34 @@ function showEdit(n) {
 }
 
 function logIn() {
+	var v = document.getElementById('username').value;
+	if (v == '') return
+	var v = document.getElementById('password').value;
+	if (v == '') return
+
+	document.loginform.submit();
+}
+
+function logInEASY() {
+	
 	//var pw = prompt("Enter password", "");
 	var pw = document.getElementById('password').value;
+	
 	if (pw == 'dct') {
-	document.mainform.loggedin.value = '1'
-	document.mainform.flag.value = ''
+		document.mainform.loggedin.value = '1'
+		document.mainform.flag.value = ''
 	}
+	
 	document.mainform.submit();
 }
 
 function logOut() {
+	document.mainform.idnum.value = ''
+	document.mainform.flag.value = 'logout'
+	document.mainform.submit();
+}
+
+function logOutEASY() {
 	document.mainform.loggedin.value = ''
 	cancelRecord(0)
 }
