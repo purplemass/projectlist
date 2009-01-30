@@ -28,13 +28,14 @@ textarea {
 	height: 50px;
 }
 
-pre {
+.pre1 {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 10px;
 	margin: 0;
-	width: 400px;
+	w1idth: 400px;
 	height: auto;
 	overflow: auto;
+	white-space: pre;
 }
 
 table {
@@ -52,6 +53,7 @@ td {
 	margin: 0;
 	padding: 5px 5px 2px 2px;
 	vertical-align: top;
+	white-space: pre;
 }
 
 /*

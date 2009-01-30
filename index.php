@@ -203,8 +203,8 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	
 	$div	.= "    <tr>\n";
 	$div	.= "      <td width=\"$w1\">$number</td>\n";
-	$div	.= "      <td width=\"$w2\">$name</td>\n";
-	$div	.= "      <td width=\"$w3\" valign=\"top\"><pre>$notes</pre></td>\n";
+	$div	.= "      <td width=\"$w2\"><p onClick=\"editValue(this)\">$name</p></td>\n";
+	$div	.= "      <td width=\"$w3\" valign=\"top\"><p>$notes</p></td>\n";
 	$div	.= "      <td width=\"$w4\">$date</td>\n";
 	$div	.= "      <td width=\"$w5\">$person</td>\n";
 	$div	.= "      <td width=\"$w6\">&nbsp;</td>\n";

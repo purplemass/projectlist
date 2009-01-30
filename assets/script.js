@@ -7,10 +7,33 @@ $(document).ready(function(){
 
 	//v = $(myLay).css("top")
 	//$("#msgDiv").css("top", v  + "px");
-
+	//$(':button:contains(My Button)').click(changeClass);
+	//$("#pp").click(changeClass);
+	//$("#pp").css("padding", 100 + "px")
+	
 });
 
 /* ********************************************** */
+
+function editValue(n) {
+	
+	if (n == lastID) return
+	
+	if (lastID != -1) {
+		lastID.innerHTML = document.getElementById('editing').value
+		//alert($(lastID + " :editing").text())
+		//$(lastID).text($("editing").text())
+	}
+	
+	lastID = n
+	
+	v = n.innerHTML
+	//n.innerHTML = "<input id=\"editing\" value=\"" + v + "\">"
+	n.innerHTML = "<textarea id=\"editing\">" + v + "</textarea>"
+}
+
+/* ********************************************** */
+
 function showEdit(n) {
 	if (n > 0) {
 		v = document.getElementById('name');
@@ -68,6 +91,7 @@ function cancelRecord(n) {
 function deleteRecord(n) {
 
 	if (n == lastID) return
+	
 	s = ">>>"
 	s = s + "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecordNow(" + n + ")\">YES</a> "
 	s = s + "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord(0)\">NO</a>"
@@ -91,6 +115,7 @@ function editRecord(n) {
 }
 
 function deleteLast(n) {
+
 	if (lastID > -1) {
 		lastDiv = document.getElementById('msgDiv'+lastID)
 		lastDiv.innerHTML = '';
