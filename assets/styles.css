@@ -7,8 +7,9 @@
 body {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 10px;
+	color: #000000;
 	background-color: #FFFFFF;
-	color: black;
+background:transparent url(../assets/BannerTileBackground.gif) no-repeat scroll 0 0;
 }
 
 a {
@@ -18,42 +19,14 @@ a {
 
 input, select {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
-	font-size: 10px;
+	font-size: 1.0em;
 }
 
 textarea {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
-	font-size: 10px;
-	width: 380px;
+	font-size: 1.0em;
+	width: 350px;
 	height: 50px;
-}
-
-.pre1 {
-	font-family: Verdana, Helvetica, Arial, sans-serif;
-	font-size: 10px;
-	margin: 0;
-	w1idth: 400px;
-	height: auto;
-	overflow: auto;
-	white-space: pre;
-}
-
-table {
-	font-size: 10px;
-}
-
-tr {
-	height: 30px;
-}
-
-td {
-	border-bottom: 1px #CCCCCC solid;
-	border-collapse: collapse;
-	border-spacing: 0px;
-	margin: 0;
-	padding: 5px 5px 2px 2px;
-	vertical-align: top;
-	white-space: pre;
 }
 
 /*
@@ -70,6 +43,14 @@ DIVs
 	color: #000000;
 }
 
+#pageTitle h1 {
+	font-size: 1.2em;
+}
+
+#pageTitle h2 {
+	font-size: 1.0em;
+}
+
 #pageBody {
 	position: relative;
 	padding: 10px;
@@ -79,11 +60,11 @@ DIVs
 #logIn {
 	position: absolute;
 	top: 10px;
-	left: 655px;
+	left: 590px;
 	width: 290px;
-	height: 20px;
+	height: 16px;
 	background-color: #999999;
-	padding: 8px;
+	padding: 10px;
 	text-align: center;
 }
 
@@ -91,6 +72,46 @@ DIVs
 	position: absolute;
 	left:215px;
 	top: 35px;
+}
+
+.numberDiv {
+	float: left;
+	padding: 2px;
+	text-align: right;
+}
+
+.nameDiv {
+	float: left;
+	padding: 2px;
+}
+
+.notesDiv {
+	float: left;
+	padding: 2px;
+	white-space: pre;
+	vertical-align: top1;
+	height: auto;
+	overflow: auto;
+}
+
+.dateDiv {
+	float: left;
+	padding: 2px;
+}
+
+.personDiv {
+	float: left;
+	padding: 2px;
+}
+
+.buttonsDiv {
+	float: left;
+	padding: 2px;
+	background-color: #999999;
+}
+
+.clearboth {
+	clear:both;
 }
 
 /*
@@ -105,13 +126,43 @@ NEW STYLES
 }
 
 .buttons {
+	background:transparent url(assets/btn_left.png) no-repeat scroll 0 0;
+	clear:both;
+	float:left;
+	margin:5px 0;
+	padding:0 0 0 10px;
+}
+
+.buttons a {
+	background:transparent url('assets/btn_stretch.png') repeat-x scroll left top;
+	color:#FF00FF;
+	float:left;
+	font-size:1em;
+	height:40px;
+	line-height:40px;
+	padding:0 10px;
+	text-decoration:none;
+}
+
+.buttons span {
+	background:transparent url(assets/btn_right.png) no-repeat scroll 0 0;
+	float:left;
+	height:40px;
+	width:10px;
+}
+
+.btn_addtocart { background-color: green; }
+
+
+.buttons2 {
+	clear: both;
+	display: compact;
 	padding: 2px;
 	margin-top: 0px;
 	background-color: #444444;
 	border: 1px #CCCCCC solid;
 	color: #CCCCCC;
 	text-decoration: none;
-	font-size: 11px;
 	font-weight: bold;
 }
 

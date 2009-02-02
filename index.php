@@ -31,11 +31,11 @@ $msg		= ''; //"FLAG: $flag IDNUM: $idnum";
 
 $w1		= 10;
 $w2		= 200;
-$w3		= 400;
+$w3		= 350;
 $w4		= 90;
 $w5		= 80;
 $w6		= 50;
-$w7		= 120;
+$w7		= 100;
 $w_t		= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
 
 ################################################################
@@ -197,10 +197,7 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 		$button2 = '&nbsp;';
 	}
 
-	#$div	.= "<div class=\"projectDiv\" id=\"projectDiv$id\">\n";
-	#$div	.= "<input type=\"$hiddenType\" name=\"id\" value=\"$id\" size=\"3\">\n";
-	#$div	.= "  <table width=\"$w_t\" cellspacing=\"0\">\n";
-	
+	/*
 	$div	.= "    <tr>\n";
 	$div	.= "      <td width=\"$w1\">$number</td>\n";
 	$div	.= "      <td width=\"$w2\"><p onClick=\"editValue(this)\">$name</p></td>\n";
@@ -210,9 +207,17 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	$div	.= "      <td width=\"$w6\">&nbsp;</td>\n";
 	$div	.= "      <td width=\"$w7\">$button1 $button2<div class=\"msgDiv\" id=\"msgDiv$id\"></div></td>\n";
 	$div	.= "    </tr>\n";
+	*/
 	
-	#$div	.= "  </table>\n";
-	#$div	.= "</div>\n";
+	$div	.= "      <div class=\"numberDiv\" id=\"numberDiv$id\" style=\"width: " . $w1 . "px\">$number</div>\n";
+	$div	.= "      <div class=\"nameDiv\"   id=\"numberDiv$id\" style=\"width: " . $w2 . "px\"><p onClick=\"editValue(this)\">$name</p></div>\n";
+	$div	.= "      <div class=\"notesDiv\"  id=\"numberDiv$id\" style=\"width: " . $w3 . "px\"><p>$notes</p></div>\n";
+	$div	.= "      <div class=\"dateDiv\"   id=\"numberDiv$id\" style=\"width: " . $w4 . "px\">$date</div>\n";
+	$div	.= "      <div class=\"personDiv\" id=\"numberDiv$id\" style=\"width: " . $w5 . "px\">$person</div>\n";
+	#$div	.= "      <div class=\"emptyDiv\" id=\"numberDiv$id\" style=\"width: " . $w6 . "px\">&nbsp;</div>\n";
+	$div	.= "      <div class=\"buttonsDiv\" id=\"numberDiv$id\" style=\"width: " . $w7 . "px\">$button1 $button2</div>\n";
+	$div	.= "      <div class=\"msgDiv\" id=\"msgDiv$id\"></div>\n";
+	$div	.= "      <div class=\"clearboth\"></div>\n\n";
 	
 	return $div;
 }

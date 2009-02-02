@@ -82,16 +82,18 @@ $html = <<<EOF
 </head>
 <body onLoad="showEdit($focusName)">
 <div id="pageTitle">
-<h2>$title</h2>
-$displayDate $displayTime
+<h1>$title</h1>
+<h2>$displayDate $displayTime</h2>
 </div>
 <div id="logIn">$loginForm</div>
 <div id="pageBody">
+<div class="buttons  btn_addtocart"><a href="#">Default Adjustable &amp; Liquid Button</a><span></span></div>
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
 <input type="$hiddenType" name="flag" value="$flag">
 <input type="$hiddenType" name="idnum" value="$idnum">
 <input type="$hiddenType" name="loggedin" value="$loggedin">
-<table width="$w_t" cellspacing="0"><!-- width="$w_t" -->
+<!--
+<table width="$w_t" cellspacing="0">
   <tr>
     <td width="$w1" class="tableTitle">#</td>
     <td width="$w2" class="tableTitle">Name</td>
@@ -101,8 +103,9 @@ $displayDate $displayTime
     <td width="$w6" class="tableTitle">$topButton1</td>
     <td width="$w7" class="tableTitle">$topButton2</td>
   </tr>
-$table
 </table>
+//-->
+$table
 </form>
 </div>
 <div id="msgDiv" class="msgDiv">$msg</div>
