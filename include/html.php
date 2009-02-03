@@ -32,30 +32,34 @@ if ($loggedin) {
 
 	$focusName	= 1;
 	if ( ($flag != 'edit') && ($flag != 'add')) {
-		$topButton2	= "<a href=\"#\" class=\"buttons\" onClick=\"addRecord()\">Add Project</a>";
+		$topButton2	= addButton('Add Project', 'addRecord()');
 		$focusName	= 0;
 	}
 	
 	$username = $_SESSION['user'];
 	
+	$mybutton = addButton('Logout', 'logOut()');
+	
 	$loginForm = <<<EOF
-You are logged in as <strong>$username</strong>. Click to  
-<a href="#" class="buttons" onClick="logOut()">Logout</a>
+<div style="float: left">You are logged in as <strong>$username</strong>.</div>$mybutton
 EOF;
 
 } else {
 
+	$mybutton = addButton('Login', 'logIn()');
+	
 	$loginForm = <<<EOF
+<div style="float: left">
 <form method="POST" action="login.php" name="loginform" id="loginform">
 <p>
   <label for="username">Username:</label> <input type="text" name="username" id="username" size="5" maxlength=\"10\" />
   <label for="password">Password:</label> <input type="password" name="password" id="password" size="5" maxlength=\"10\" />
-  <a href="#" class="buttons" onClick="logIn()">Login</a>
 </p>
 </form>
+</div>
+$mybutton
 EOF;
 }
-
 
 ################################################################
 ## HTML
@@ -87,11 +91,12 @@ $html = <<<EOF
 </div>
 <div id="logIn">$loginForm</div>
 <div id="pageBody">
-<div class="buttons  btn_addtocart"><a href="#">Default Adjustable &amp; Liquid Button</a><span></span></div>
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
 <input type="$hiddenType" name="flag" value="$flag">
 <input type="$hiddenType" name="idnum" value="$idnum">
 <input type="$hiddenType" name="loggedin" value="$loggedin">
+<div style="float: left">$topButton2</div>
+<div class="clearboth"></div>
 <!--
 <table width="$w_t" cellspacing="0">
   <tr>

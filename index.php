@@ -23,7 +23,7 @@ include_once('include/db.php');
 
 $thisScript	= $_SERVER['PHP_SELF'];
 
-$title		= 'DC-Technology Task List';
+$title		= 'DC-Technology Project List';
 
 $hiddenType	= 'hidden';
 
@@ -35,7 +35,7 @@ $w3		= 350;
 $w4		= 90;
 $w5		= 80;
 $w6		= 50;
-$w7		= 100;
+$w7		= 200;
 $w_t		= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
 
 ################################################################
@@ -156,6 +156,19 @@ function p ($s) {
 }
 
 ################################################################
+## addButton
+################################################################
+
+function addButton($label, $js) {
+
+	$s = "<div class=\"buttons\"><a href=\"#\" onClick=\"$js\">$label</a><span></span></div>";
+	#$s = "<div class=\"buttons1\"><a href=\"#\" onClick=\"$js\">$label</a></div>";
+	
+	return $s;
+
+}
+
+################################################################
 ## rowHTML
 ################################################################
 
@@ -169,8 +182,11 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	
 	$div		= '';
 	
-	$button1 = "<a href=\"#\" class=\"buttons\" onClick=\"editRecord($id)\">Edit</a>";
-	$button2 = "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecord($id)\">Delete</a>";
+	#$button1 = "<a href=\"#\" class=\"buttons\" onClick=\"editRecord($id)\">Edit</a>";
+	#$button2 = "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecord($id)\">Delete</a>";
+	
+	$button1	= addButton('Edit', "editRecord($id)");
+	$button2	= addButton('Delete', "deleteRecord($id)");
 	
 	if ($forceEdit) {
 
@@ -183,11 +199,16 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 		$person		= "<input name=\"person\"  id=\"person\" value=\"$person\"
 					size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
 
+		/*
 		$button1	= "<input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">";
 		$button2	= "<input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">";
 		
 		$button1	= "<a href=\"#\" class=\"buttons\" onClick=\"saveRecord($id)\">Save</a>";
 		$button2	= "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord($id)\">Cancel</a>";
+		*/
+		
+		$button1	= addButton('Save', "saveRecord($id)");
+		$button2	= addButton('Cancel', "cancelRecord($id)");
 	
 
 	}
@@ -215,7 +236,7 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	$div	.= "      <div class=\"dateDiv\"   id=\"numberDiv$id\" style=\"width: " . $w4 . "px\">$date</div>\n";
 	$div	.= "      <div class=\"personDiv\" id=\"numberDiv$id\" style=\"width: " . $w5 . "px\">$person</div>\n";
 	#$div	.= "      <div class=\"emptyDiv\" id=\"numberDiv$id\" style=\"width: " . $w6 . "px\">&nbsp;</div>\n";
-	$div	.= "      <div class=\"buttonsDiv\" id=\"numberDiv$id\" style=\"width: " . $w7 . "px\">$button1 $button2</div>\n";
+	$div	.= "      <div class=\"buttonsDiv\" id=\"numberDiv$id\" style=\"width: " . $w7 . "px\">$button1$button2</div>\n";
 	$div	.= "      <div class=\"msgDiv\" id=\"msgDiv$id\"></div>\n";
 	$div	.= "      <div class=\"clearboth\"></div>\n\n";
 	
