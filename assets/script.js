@@ -92,9 +92,9 @@ function deleteRecord(n) {
 
 	if (n == lastID) return
 	
-	s = ">>>"
-	s = s + "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecordNow(" + n + ")\">YES</a> "
-	s = s + "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord(0)\">NO</a>"
+	s = ""
+	s = s + "<div class=\"buttons\"><a href=\"#\" onClick=\"deleteRecordNow(" + n + ")\">YES</a><span></span></div>"
+	s = s + "<div class=\"buttons\"><a href=\"#\" onClick=\"cancelRecord(0)\">NO</a><span></span></div>"
 	
 	msgLayer = document.getElementById('msgDiv' + n);
 	msgLayer.innerHTML = s;

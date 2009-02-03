@@ -24,8 +24,8 @@ input, select {
 textarea {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 1.0em;
-	width: 350px;
-	height: 50px;
+	width: 340px;
+	height: 80px;
 }
 
 /*
@@ -53,65 +53,85 @@ DIVs
 }
 
 #pageBody {
-	position: relative;
+	width: 950px;
 	padding: 10px;
 	background-color: #FFFFFF;
+	
 }
 
 #logIn {
 	position: absolute;
 	top: 10px;
 	left: 590px;
-	width: 300px;
+	width: 350px;
 	height: 16px;
 	background-color: #FFFFFF;
 	padding: 10px;
-	text-align: center;
+	text-align: left;
 }
 
-#msgDiv {
-	position: absolute;
-	left:215px;
-	top: 35px;
+/*
+*************************
+STYLES FOR TABLES
+*************************
+*/
+
+.tableDiv {
+	float: left;
+	padding: 2px;
 }
 
 .numberDiv {
-	float: left;
-	padding: 2px;
 	text-align: right;
 }
 
 .nameDiv {
 	float: left;
-	padding: 2px;
+	margin-top: 16px;
+}
+
+.clientDiv {
+	float: left;
+	font-weight: bold;
+}
+
+.jobDiv {
+	float: right;
+	font-weight: bold;
 }
 
 .notesDiv {
-	float: left;
-	padding: 2px;
 	white-space: pre;
-	vertical-align: top1;
 	height: auto;
-	overflow: auto;
+	overflow: hidden;
 }
 
 .dateDiv {
-	float: left;
-	padding: 2px;
 }
 
 .personDiv {
-	float: left;
-	padding: 2px;
 }
 
 .buttonsDiv {
-	float: left;
-	padding: 2px;
+}
+
+.msgDiv {
+	float: right;
+	width: 170px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.msgDiv a {
+	color: #FF0000;
+	text-decoration: none;
 }
 
 .clearboth {
 	clear:both;
+	border-bottom: 1px #CCCCCC solid;
+	padding-top: 10px;
+	margin-bottom: 10px;
 }
 
 /*
@@ -162,16 +182,4 @@ NEW STYLES
 	color: #CCCCCC;
 	text-decoration: none;
 	font-weight: bold;
-}
-
-.msgDiv {
-	margin-top: 6px;
-	margin-bottom: 10px;
-	color: #FF0000;
-	font-weight: bold;
-}
-
-.msgDiv a {
-	color: #FF0000;
-	text-decoration: none;
 }

@@ -37,10 +37,13 @@ $logit	= 0;
 ################################################################
 
 $r	= getUserDetails($username);
-$pw	= $r[0]['password'];
 
 if (count($r) > 0) {
+
+	$pw	= $r[0]['password'];
+
 	if ($pw == $password) {
+
 		$logit = 1;
 		
 		$_SESSION['loggedin'] = $logit;

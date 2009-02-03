@@ -29,14 +29,15 @@ $hiddenType	= 'hidden';
 
 $msg		= ''; //"FLAG: $flag IDNUM: $idnum";
 
-$w1		= 10;
+$w1		= 15;
 $w2		= 200;
 $w3		= 350;
 $w4		= 90;
-$w5		= 80;
-$w6		= 50;
-$w7		= 200;
-$w_t		= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
+$w5		= 90;
+$w6		= 165;
+$w7		= 130;
+$w8		= 50;
+$w_t	= $w1+$w2+$w3+$w4+$w5+$w6+$w7;
 
 ################################################################
 ## form variables
@@ -162,7 +163,7 @@ function p ($s) {
 function addButton($label, $js) {
 
 	$s = "<div class=\"buttons\"><a href=\"#\" onClick=\"$js\">$label</a><span></span></div>";
-	#$s = "<div class=\"buttons1\"><a href=\"#\" onClick=\"$js\">$label</a></div>";
+	$s = "<div class=\"buttons\"><a href=\"JavaScript:$js\">$label</a><span></span></div>";
 	
 	return $s;
 
@@ -178,12 +179,9 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	global $hiddenType;
 	global $chars_number, $chars_name, $chars_notes, $chars_date, $chars_person;
 		
-	global $w1, $w2, $w3, $w4, $w5, $w6, $w7, $w_t;
+	global $w1, $w2, $w3, $w4, $w5, $w6, $w7, $w8, $w_t;
 	
 	$div		= '';
-	
-	#$button1 = "<a href=\"#\" class=\"buttons\" onClick=\"editRecord($id)\">Edit</a>";
-	#$button2 = "<a href=\"#\" class=\"buttons\" onClick=\"deleteRecord($id)\">Delete</a>";
 	
 	$button1	= addButton('Edit', "editRecord($id)");
 	$button2	= addButton('Delete', "deleteRecord($id)");
@@ -192,21 +190,13 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 
 		$number		= "&nbsp";
 		$name 		= "<input name=\"name\"  id=\"name\" value=\"$name\"
-					size=\"25\" maxlength=\"$chars_name\" type=\"text\">";
+						size=\"25\" maxlength=\"$chars_name\" type=\"text\">";
 		$notes		= "<textarea name=\"notes\"  id=\"notes\">$notes</textarea>";
 		$date		= "<input name=\"delivery_date\"  id=\"delivery_date\" value=\"$date\"
-					size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
+						size=\"12\" maxlength=\"$chars_date\" type=\"text\">";
 		$person		= "<input name=\"person\"  id=\"person\" value=\"$person\"
-					size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
+						size=\"10\" maxlength=\"$chars_person\" type=\"text\">";
 
-		/*
-		$button1	= "<input onClick=\"saveRecord($id)\"   type=\"button\" value=\"Save\">";
-		$button2	= "<input onClick=\"cancelRecord($id)\" type=\"button\" value=\"Cancel\">";
-		
-		$button1	= "<a href=\"#\" class=\"buttons\" onClick=\"saveRecord($id)\">Save</a>";
-		$button2	= "<a href=\"#\" class=\"buttons\" onClick=\"cancelRecord($id)\">Cancel</a>";
-		*/
-		
 		$button1	= addButton('Save', "saveRecord($id)");
 		$button2	= addButton('Cancel', "cancelRecord($id)");
 	
@@ -230,14 +220,23 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $date, $
 	$div	.= "    </tr>\n";
 	*/
 	
-	$div	.= "      <div class=\"numberDiv\" id=\"numberDiv$id\" style=\"width: " . $w1 . "px\">$number</div>\n";
-	$div	.= "      <div class=\"nameDiv\"   id=\"numberDiv$id\" style=\"width: " . $w2 . "px\"><p onClick=\"editValue(this)\">$name</p></div>\n";
-	$div	.= "      <div class=\"notesDiv\"  id=\"numberDiv$id\" style=\"width: " . $w3 . "px\"><p>$notes</p></div>\n";
-	$div	.= "      <div class=\"dateDiv\"   id=\"numberDiv$id\" style=\"width: " . $w4 . "px\">$date</div>\n";
-	$div	.= "      <div class=\"personDiv\" id=\"numberDiv$id\" style=\"width: " . $w5 . "px\">$person</div>\n";
-	#$div	.= "      <div class=\"emptyDiv\" id=\"numberDiv$id\" style=\"width: " . $w6 . "px\">&nbsp;</div>\n";
-	$div	.= "      <div class=\"buttonsDiv\" id=\"numberDiv$id\" style=\"width: " . $w7 . "px\">$button1$button2</div>\n";
+	$div	.= "      <div class=\"tableDiv numberDiv\"  style=\"width: " . $w1 . "px\">$number</div>\n";
+	
+	$div	.= "      <div class=\"tableDiv\"    style=\"width: " . $w2 . "px\">\n";
+	
+	$div	.= "      <div class=\"clientDiv\"  style=\"width: " . $w7 . "px\">CLIENT</div>\n";
+	$div	.= "      <div class=\"jobDiv\"     style=\"width: " . $w8 . "px\">JOB NO</div>\n";
+	$div	.= "      <div class=\"nameDiv\"    style=\"width: " . $w2 . "px\"><p onClick=\"editValue(this)\">$name</p></div>\n";
+	
+	$div	.= "      </div>\n";
+	
+	$div	.= "      <div class=\"tableDiv notesDiv\"   style=\"width: " . $w3 . "px\"><p>$notes</p></div>\n";
+	$div	.= "      <div class=\"tableDiv dateDiv\"    style=\"width: " . $w4 . "px\">$date</div>\n";
+	$div	.= "      <div class=\"tableDiv personDiv\"  style=\"width: " . $w5 . "px\">$person</div>\n";
+	$div	.= "      <div class=\"tableDiv buttonsDiv\" style=\"width: " . $w6 . "px\">$button1$button2</div>\n";
+	
 	$div	.= "      <div class=\"msgDiv\" id=\"msgDiv$id\"></div>\n";
+	
 	$div	.= "      <div class=\"clearboth\"></div>\n\n";
 	
 	return $div;
