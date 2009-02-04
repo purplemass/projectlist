@@ -88,6 +88,7 @@ $html = <<<EOF
 <h1>$title</h1>
 <h2>$displayDate $displayTime</h2>
 </div>
+<div id="msgDiv" class="msgDiv">$msg</div>
 <div id="logIn">$loginForm</div>
 <div id="pageBody">
 <form method="POST" action="$thisScript" name="mainform" id="mainform">
@@ -112,7 +113,6 @@ $html = <<<EOF
 $table
 </form>
 </div>
-<div id="msgDiv" class="msgDiv">$msg</div>
 </body>
 </html>
 

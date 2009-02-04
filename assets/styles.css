@@ -53,7 +53,7 @@ DIVs
 }
 
 #pageBody {
-	width: 950px;
+	width: 980px;
 	padding: 10px;
 	background-color: #FFFFFF;
 	
@@ -62,7 +62,7 @@ DIVs
 #logIn {
 	position: absolute;
 	top: 10px;
-	left: 590px;
+	left: 615px;
 	width: 350px;
 	height: 16px;
 	background-color: #FFFFFF;
@@ -78,7 +78,9 @@ STYLES FOR TABLES
 
 .tableDiv {
 	float: left;
-	padding: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	border1: 1px solid #CCCCCC;
 }
 
 .numberDiv {
@@ -92,16 +94,15 @@ STYLES FOR TABLES
 
 .clientDiv {
 	float: left;
-	font-weight: bold;
 }
 
 .jobDiv {
 	float: right;
-	font-weight: bold;
 }
 
 .notesDiv {
 	white-space: pre;
+	width: 200px;
 	height: auto;
 	overflow: hidden;
 }
@@ -113,12 +114,11 @@ STYLES FOR TABLES
 }
 
 .buttonsDiv {
+	padding: 0;
 }
 
 .msgDiv {
 	float: right;
-	width: 170px;
-	margin-bottom: 10px;
 	font-weight: bold;
 }
 
@@ -130,7 +130,6 @@ STYLES FOR TABLES
 .clearboth {
 	clear:both;
 	border-bottom: 1px #CCCCCC solid;
-	padding-top: 10px;
 	margin-bottom: 10px;
 }
 
@@ -170,16 +169,4 @@ NEW STYLES
 	float:left;
 	height:16px;
 	width:10px;
-}
-
-.buttons2 {
-	clear: both;
-	display: compact;
-	padding: 2px;
-	margin-top: 0px;
-	background-color: #444444;
-	border: 1px #CCCCCC solid;
-	color: #CCCCCC;
-	text-decoration: none;
-	font-weight: bold;
 }
