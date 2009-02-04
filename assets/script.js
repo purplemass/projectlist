@@ -143,10 +143,10 @@ function saveRecord(n) {
 		v.focus()
 	}
 	
-	v = document.getElementById('delivery_date');
+	v = document.getElementById('enddate');
 	if ( (fail == 0) && (v.value == '') ) {
 		fail = 1
-		msg = "Enter a delivery date first!"
+		msg = "Enter a end date first!"
 		v.focus()
 	}
 	

@@ -20,11 +20,6 @@ include_once('include/common.php');
 ## variables
 ################################################################
 
-$chars_name	= 34;
-$chars_notes	= 255;
-$chars_date	= 10;
-$chars_person	= 14;
-
 //$dbPath	= $_SERVER['DOCUMENT_ROOT'].'list/taskList.sqlite2';
 $dbPath		= 'assets/projectlist.sqlite2';
 $dbHandle	= 0;
@@ -39,7 +34,7 @@ function createDB() {
 
 	global $dbPath, $dbHandle;
 	
-	global $chars_name, $chars_notes, $chars_date, $chars_person;
+	global $BL;
 	
 	if (!file_exists($dbPath)) {
 /*
@@ -56,18 +51,18 @@ function createDB() {
 		// create page view database table //number INTEGER($chars_number),
 		$cmd = "CREATE TABLE list (
 					id INTEGER PRIMARY KEY NOT NULL,
-					name CHAR($chars_name),
-					notes CHAR($chars_notes),
-					enddate CHAR($chars_date),
-					person CHAR($chars_person)
+					name CHAR(" . $BL['name']['size'] . "),
+					notes CHAR(" . $BL['notes']['size'] . "),
+					enddate CHAR(" . $BL['enddate']['size'] . "),
+					person CHAR(" . $BL['person']['size'] . ")
 					)";
 		dbExec($cmd);
 
 		$cmd = "CREATE TABLE user (
 					id INTEGER PRIMARY KEY NOT NULL,
-					username CHAR($chars_name),
-					password CHAR($chars_name),
-					creationdate CHAR($chars_date)
+					username CHAR(" . $BL['name']['size'] . "),
+					password CHAR(" . $BL['name']['size'] . "),
+					creationdate CHAR(" . $BL['enddate']['size'] . ")
 					)";
 		dbExec($cmd);
 		
@@ -105,9 +100,7 @@ function insertRecords($n) {
 ## addRecord
 ################################################################
 
-function addRecord() {
-
-	global $name, $notes, $enddate, $person;
+function addRecord($name, $notes, $enddate, $person) {
 	
 	dbExec("INSERT INTO list (name, notes, enddate, person)
 		VALUES ('$name', '$notes', '$enddate', '$person')");
@@ -117,9 +110,7 @@ function addRecord() {
 ## saveRecord
 ################################################################
 
-function saveRecord($id) {
-
-	global $name, $notes, $enddate, $person;
+function saveRecord($id, $name, $notes, $enddate, $person) {
 	
 	dbExec("UPDATE list SET name='$name', notes='$notes', enddate='$enddate', person='$person'
 		WHERE id='$id'");

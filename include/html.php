@@ -97,19 +97,6 @@ $html = <<<EOF
 <input type="$hiddenType" name="loggedin" value="$loggedin">
 <div style="float: left">$topButton2</div>
 <div class="clearboth"></div>
-<!--
-<table width="$w_t" cellspacing="0">
-  <tr>
-    <td width="$w1" class="tableTitle">#</td>
-    <td width="$w2" class="tableTitle">Name</td>
-    <td width="$w3" class="tableTitle">Notes</td>
-    <td width="$w4" class="tableTitle">Delivery&nbsp;date</td>
-    <td width="$w5" class="tableTitle">Assigned&nbsp;to</td>
-    <td width="$w6" class="tableTitle">$topButton1</td>
-    <td width="$w7" class="tableTitle">$topButton2</td>
-  </tr>
-</table>
-//-->
 $table
 </form>
 </div>
@@ -118,6 +105,21 @@ $table
 
 EOF;
 
+/*
+<!--
+<table width="$w_t" cellspacing="0">
+  <tr>
+    <td width="$w1" class="tableTitle">#</td>
+    <td width="$w2" class="tableTitle">Name</td>
+    <td width="$w3" class="tableTitle">Notes</td>
+    <td width="$w4" class="tableTitle">End&nbsp;date</td>
+    <td width="$w5" class="tableTitle">Assigned&nbsp;to</td>
+    <td width="$w6" class="tableTitle">$topButton1</td>
+    <td width="$w7" class="tableTitle">$topButton2</td>
+  </tr>
+</table>
+//-->
+*/
 ################################################################
 
 #end

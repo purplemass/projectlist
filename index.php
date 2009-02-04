@@ -27,19 +27,17 @@ $title		= 'DC-Technology Project List';
 
 $hiddenType	= 'hidden';
 
-$msg		= ''; //"FLAG: $flag IDNUM: $idnum";
+$msg		= '';
 
-$w1		=  15;	#id
-$w2		= 220;	#name
-$w3		= 350;	#notes
-$w4		=  70;	#enddate
-$w5		= 100;	#person
-$w6		= 165;	#buttons
+$BL['number']	= array("width"=>15, 	"size"=>3,	"maxchar"=>3);
+$BL['name']	= array("width"=>220,	"size"=>34,	"maxchar"=>34);
+$BL['notes']	= array("width"=>350,	"size"=>255,	"maxchar"=>255);
+$BL['enddate']	= array("width"=>70,	"size"=>10,	"maxchar"=>10);
+$BL['person']	= array("width"=>100,	"size"=>14,	"maxchar"=>14);
+$BL['buttons']	= array("width"=>165,	"size"=>1,	"maxchar"=>1);
 
-$w7		= 130;	#client
-$w8		= 50;	#job no
-
-$w_t		= $w1+$w2+$w3+$w4+$w5+$w6;
+$BL['client']	= array("width"=>130,	"size"=>1,	"maxchar"=>15);
+$BL['jobnum']	= array("width"=>50,	"size"=>1,	"maxchar"=>15);
 
 ################################################################
 ## form variables
@@ -52,7 +50,7 @@ if ($flag == 'save') {
 
 	$name		= getVar('name');
 	$notes		= getVar('notes');
-	$enddate	= getVar('delivery_date');
+	$enddate	= getVar('enddate');
 	$person		= getVar('person');
 	
 }
@@ -106,20 +104,20 @@ switch ($flag) {
 
 	case 'edit':
 
-		//nothin here
+		//nothing here
 		break;
 		
 	case 'cancel':
 
-		//nothin here
+		//nothing here
 		break;
 
 	case 'save':
 		
 		if ($idnum == -1) {
-			addRecord();
+			addRecord($name, $notes, $enddate, $person);
 		} else {
-			saveRecord($idnum);
+			saveRecord($idnum, $name, $notes, $enddate, $person);
 		}
 		break;
 		
@@ -164,7 +162,7 @@ function p ($s) {
 
 function addButton($label, $js) {
 
-	$s = "<div class=\"buttons\"><a href=\"#\" onClick=\"$js\">$label</a><span></span></div>";
+	#$s = "<div class=\"buttons\"><a href=\"#\" onClick=\"$js\">$label</a><span></span></div>";
 	$s = "<div class=\"buttons\"><a href=\"JavaScript:$js\">$label</a><span></span></div>";
 	
 	return $s;
@@ -172,18 +170,55 @@ function addButton($label, $js) {
 }
 
 ################################################################
+## addInput
+################################################################
+
+function addInput($label, $entry) {
+
+	global $BL;
+	
+	$s = '<input name="' . $label .
+		'" id="' . $label .
+		'" value="' . $entry[$label] .
+		'" size="' . $BL[$label]['size'] .
+		'" maxlength="' . $BL[$label]['maxchar'] .
+		'" type="text">';
+		
+	return $s;
+}
+
+################################################################
+## addDiv
+################################################################
+
+function addDiv($class, $width, $value, $closeTag=1) {
+
+	
+	if ($closeTag) $closeTag='</div>';
+	else $closeTag = '';
+	
+	return "      <div class=\"$class\" style=\"width: " . $width . "px\">$value$closeTag\n";
+	
+}
+
+################################################################
 ## rowHTML
 ################################################################
 
-function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $enddate, $person) {
+function rowHTML($number, $entry, $forceEdit, $showButtons) {
 
 	global $flag;
 	global $hiddenType;
-	global $chars_number, $chars_name, $chars_notes, $chars_date, $chars_person;
-		
-	global $w1, $w2, $w3, $w4, $w5, $w6, $w7, $w8, $w_t;
+	
+	global $BL;
 	
 	$div		= '';
+	
+	$id 		= $entry['id'];
+	$name 		= $entry['name'];
+	$notes		= $entry['notes'];
+	$enddate	= $entry['enddate'];
+	$person		= $entry['person'];
 	
 	$button1	= addButton('Edit', "editRecord($id)");
 	$button2	= addButton('Delete', "deleteRecord($id)");
@@ -191,17 +226,12 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $enddate
 	if ($forceEdit) {
 
 		$number		= "&nbsp";
-		$name 		= "<input name=\"name\" id=\"name\" value=\"$name\"
-						size=\"$chars_name\" maxlength=\"$chars_name\" type=\"text\">";
-		$notes		= "<textarea name=\"notes\" id=\"notes\">$notes</textarea>";
-		$enddate	= "<input name=\"delivery_date\"  id=\"delivery_date\" value=\"$enddate\"
-						size=\"10\" maxlength=\"$chars_date\" type=\"text\">";
-		$person		= "<input name=\"person\" id=\"person\" value=\"$person\"
-						size=\"14\" maxlength=\"$chars_person\" type=\"text\">";
-
+		$name 		= addInput('name', $entry);
+		$notes		= '<textarea name="notes" id="notes">' . $notes . '</textarea>';
+		$enddate	= addInput('enddate', $entry);
+		$person		= addInput('person', $entry);
 		$button1	= addButton('Save', "saveRecord($id)");
 		$button2	= addButton('Cancel', "cancelRecord($id)");
-	
 
 	}
 	
@@ -209,40 +239,21 @@ function rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $enddate
 		$button1 = '&nbsp;';
 		$button2 = '&nbsp;';
 	}
-
-	/*
-	$div	.= "    <tr>\n";
-	$div	.= "      <td width=\"$w1\">$number</td>\n";
-	$div	.= "      <td width=\"$w2\"><p onClick=\"editValue(this)\">$name</p></td>\n";
-	$div	.= "      <td width=\"$w3\" valign=\"top\"><p>$notes</p></td>\n";
-	$div	.= "      <td width=\"$w4\">$enddate</td>\n";
-	$div	.= "      <td width=\"$w5\">$person</td>\n";
-	$div	.= "      <td width=\"$w6\">&nbsp;</td>\n";
-	$div	.= "      <td width=\"$w7\">$button1 $button2<div class=\"msgDiv\" id=\"msgDiv$id\"></div></td>\n";
-	$div	.= "    </tr>\n";
-	*/
 	
-	$div	.= "      <div class=\"tableDiv numberDiv\"  style=\"width: " . $w1 . "px\">$number</div>\n";
+	$div	.= addDiv('tableDiv numberDiv', $BL['number']['width'], $number);
 	
-	if ($number == "pp") {
+	$div	.= addDiv('tableDiv', $BL['name']['width'], '', 0);
 	
-		$div	.= "      <div class=\"tableDiv\"    style=\"width: " . $w2 . "px\">$name</div>\n";
+	$div	.= addDiv('clientDiv', $BL['client']['width'], 'Ford');
+	$div	.= addDiv('jobDiv', $BL['jobnum']['width'], '1999/M');
+	$div	.= addDiv('nameDiv', $BL['name']['width'], $name); #<p onClick=\"//editValue(this)\">$name</p></div>
 	
-	} else {
-		$div	.= "      <div class=\"tableDiv\"    style=\"width: " . $w2 . "px\">\n";
+	$div	.= "      </div>\n";
 	
-		$div	.= "      <div class=\"clientDiv\"  style=\"width: " . $w7 . "px\">CLIENT</div>\n";
-		$div	.= "      <div class=\"jobDiv\"     style=\"width: " . $w8 . "px\">JOB NO</div>\n";
-		$div	.= "      <div class=\"nameDiv\"    style=\"width: " . $w2 . "px\"><p onClick=\"editValue(this)\">$name</p></div>\n";
-	
-		$div	.= "      </div>\n";
-	
-	}
-	
-	$div	.= "      <div class=\"tableDiv notesDiv\"   style=\"width: " . $w3 . "px\"><p>$notes</p></div>\n";
-	$div	.= "      <div class=\"tableDiv dateDiv\"    style=\"width: " . $w4 . "px\">$enddate</div>\n";
-	$div	.= "      <div class=\"tableDiv personDiv\"  style=\"width: " . $w5 . "px\">$person</div>\n";
-	$div	.= "      <div class=\"tableDiv buttonsDiv\" style=\"width: " . $w6 . "px\">$button1$button2</div>\n";
+	$div	.= addDiv('tableDiv notesDiv', $BL['notes']['width'], $notes);
+	$div	.= addDiv('tableDiv enddateDiv', $BL['enddate']['width'], $enddate);
+	$div	.= addDiv('tableDiv personDiv', $BL['person']['width'], $person);
+	$div	.= addDiv('tableDiv buttonsDiv', $BL['buttons']['width'], $button1 . $button2);
 	
 	$div	.= "      <div class=\"msgDiv\" id=\"msgDiv$id\"></div>\n";
 	
@@ -260,27 +271,24 @@ function BuildTable() {
 	global $flag, $idnum, $loggedin;
 	
 	$table	= '';
-	$table .= rowHTML(0, 0, -1, '#', 'NAME', 'NOTES', 'END DATE', 'ASSIGNED TO');
+	#$table .= rowHTML(0, 0, -1, '#', 'NAME', 'NOTES', 'END DATE', 'ASSIGNED TO');
 	
 	$ra	= getRecords();
 	$number = 0;
 	
 	if ($flag == 'add') {
 		$flag == 'edit';
-		$table .= rowHTML(1, 1, -1, '', '', '', '', '');
+		$table .= rowHTML(-1, 1, 1, 1);
 	}
 		
 	foreach ($ra as $entry) {
 	
 		$number++;
+		
 		$id		= $entry['id'];
-		$name		= $entry['name'];
-		$notes		= $entry['notes'];
-		$enddate	= $entry['enddate'];
-		$person		= $entry['person'];
 	
-		$forceEdit = 0;
-		$showButtons = 0;
+		$forceEdit	= 0;
+		$showButtons	= 0;
 		
 		if ($loggedin == 1) $showButtons = 1;
 		
@@ -288,7 +296,7 @@ function BuildTable() {
 		if ( ($flag == 'edit') && ($id != $idnum) ) $showButtons = 0;
 		if ( ($flag == 'add')  ) $showButtons = 0;
 		
-		$table .= rowHTML($forceEdit, $showButtons, $id, $number, $name, $notes, $enddate, $person);
+		$table .= rowHTML($number, $entry, $forceEdit, $showButtons);
 	}
 	
 	return $table;
