@@ -121,7 +121,9 @@ function saveRecord($id, $name, $notes, $enddate, $person) {
 ################################################################
 
 function deleteRecord($id) {
+
 	dbExec("DELETE FROM list WHERE id=$id");
+
 }
 
 ################################################################
@@ -184,7 +186,7 @@ function dbQuery($cmd) {
 	$query = sqlite_query($dbHandle, $cmd, $error);
 
 	if (!$query) {
-		exit("Error in query: '$error'");
+		exit("Error in query ($cmd): '$error'");
 	} else {
 		//p('Number of rows modified: ', sqlite_changes($dbHandle));
 	}
@@ -205,7 +207,7 @@ function dbExec($cmd) {
 	$query =  sqlite_exec($dbHandle, $cmd, $error);
 
 	if (!$query) {
-		exit("Error in query: '$error'");
+		exit("Error in query ($cmd): '$error'");
 	} else {
 		//p('Number of rows modified: ', sqlite_changes($dbHandle));
 	}

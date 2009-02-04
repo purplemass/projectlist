@@ -18,6 +18,23 @@ include_once('include/common.php');
 include_once('include/db.php');
 
 ################################################################
+## ALTER TABLE IN sqlite is like so
+################################################################
+
+$s = <<<EOF
+BEGIN TRANSACTION;
+CREATE TEMPORARY TABLE list_backup(id, name, notes, date, person);
+INSERT INTO list_backup SELECT id, name, notes, date, person FROM list;
+DROP TABLE list;
+CREATE TABLE list(id, name, notes, enddate, person);
+INSERT INTO list SELECT id, name, notes, date, person FROM list_backup;
+DROP TABLE list_backup;
+COMMIT;
+EOF;
+
+#dbExec($s);
+		
+################################################################
 ## variables
 ################################################################
 
@@ -30,7 +47,7 @@ $hiddenType	= 'hidden';
 $msg		= '';
 
 $BL['number']	= array("width"=>15, 	"size"=>3,	"maxchar"=>3);
-$BL['name']	= array("width"=>220,	"size"=>34,	"maxchar"=>34);
+$BL['name']		= array("width"=>220,	"size"=>34,	"maxchar"=>34);
 $BL['notes']	= array("width"=>350,	"size"=>255,	"maxchar"=>255);
 $BL['enddate']	= array("width"=>70,	"size"=>10,	"maxchar"=>10);
 $BL['person']	= array("width"=>100,	"size"=>14,	"maxchar"=>14);
