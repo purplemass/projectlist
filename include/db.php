@@ -81,6 +81,37 @@ function createDB() {
 }
 
 ################################################################
+## ALTER TABLE IN sqlite is like so
+################################################################
+
+function copyDB() {
+
+	$s = <<<EOF
+BEGIN TRANSACTION;
+CREATE TEMPORARY TABLE list_backup(id, name, notes, date, person);
+INSERT INTO list_backup SELECT id, name, notes, date, person FROM list;
+COMMIT;
+EOF;
+
+	dbExec($s);
+/*
+
+	$s_full = <<<EOF
+BEGIN TRANSACTION;
+CREATE TEMPORARY TABLE list_backup(id, name, notes, date, person);
+INSERT INTO list_backup SELECT id, name, notes, date, person FROM list;
+DROP TABLE list;
+CREATE TABLE list(id, name, notes, enddate, person);
+INSERT INTO list SELECT id, name, notes, date, person FROM list_backup;
+DROP TABLE list_backup;
+COMMIT;
+EOF;
+
+*/
+
+}
+
+################################################################
 ## insertRecords
 ################################################################
 

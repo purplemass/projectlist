@@ -52,6 +52,14 @@ DIVs
 	margin-top: 4px;
 }
 
+#msgDivMain {
+	float: right;
+	margin-bottom: 2px;
+	margin-right: 10px;
+	color: #FF0000;
+	font-weight: bold; 
+}
+
 #pageBody {
 	width: 980px;
 	padding: 10px;
@@ -120,6 +128,9 @@ STYLES FOR TABLES
 .msgDiv {
 	float: right;
 	font-weight: bold;
+	margin-top: 5px;
+	margin-right: 10px;
+	color: #FF0000;
 }
 
 .msgDiv a {

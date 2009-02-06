@@ -16,23 +16,6 @@
 
 include_once('include/common.php');
 include_once('include/db.php');
-
-################################################################
-## ALTER TABLE IN sqlite is like so
-################################################################
-
-$s = <<<EOF
-BEGIN TRANSACTION;
-CREATE TEMPORARY TABLE list_backup(id, name, notes, date, person);
-INSERT INTO list_backup SELECT id, name, notes, date, person FROM list;
-DROP TABLE list;
-CREATE TABLE list(id, name, notes, enddate, person);
-INSERT INTO list SELECT id, name, notes, date, person FROM list_backup;
-DROP TABLE list_backup;
-COMMIT;
-EOF;
-
-#dbExec($s);
 		
 ################################################################
 ## variables
@@ -91,7 +74,7 @@ if(empty($_SESSION['loggedin']) || !isset($_SESSION['time'])) {
 } elseif ( (isset($_SESSION['time']) && ( (mktime() - $_SESSION['time']) > $session_timer) )) { 
 
 	destroySession();
-	$msg = "Logged out";
+	$msg = "The session has timed out. Please log in again.";
 
 } else {
 
@@ -100,7 +83,7 @@ if(empty($_SESSION['loggedin']) || !isset($_SESSION['time'])) {
 }
 
 ################################################################
-## process
+## process stuff: DB, flag
 ################################################################
 
 $r = createDB();
@@ -214,7 +197,7 @@ function addDiv($class, $width, $value, $closeTag=1) {
 	if ($closeTag) $closeTag='</div>';
 	else $closeTag = '';
 	
-	return "      <div class=\"$class\" style=\"width: " . $width . "px\">$value$closeTag\n";
+	return "    <div class=\"$class\" style=\"width: " . $width . "px\">$value$closeTag\n";
 	
 }
 
@@ -261,20 +244,20 @@ function rowHTML($number, $entry, $forceEdit, $showButtons) {
 	
 	$div	.= addDiv('tableDiv', $BL['name']['width'], '', 0);
 	
-	$div	.= addDiv('clientDiv', $BL['client']['width'], 'Ford');
-	$div	.= addDiv('jobDiv', $BL['jobnum']['width'], '1999/M');
-	$div	.= addDiv('nameDiv', $BL['name']['width'], $name); #<p onClick=\"//editValue(this)\">$name</p></div>
+	$div	.= '  ' . addDiv('clientDiv', $BL['client']['width'], 'Ford');
+	$div	.= '  ' . addDiv('jobDiv', $BL['jobnum']['width'], '1999/M');
+	$div	.= '  ' . addDiv('nameDiv', $BL['name']['width'], $name); #<p onClick=\"//editValue(this)\">$name</p></div>
 	
-	$div	.= "      </div>\n";
+	$div	.= "    </div>\n";
 	
 	$div	.= addDiv('tableDiv notesDiv', $BL['notes']['width'], $notes);
 	$div	.= addDiv('tableDiv enddateDiv', $BL['enddate']['width'], $enddate);
 	$div	.= addDiv('tableDiv personDiv', $BL['person']['width'], $person);
 	$div	.= addDiv('tableDiv buttonsDiv', $BL['buttons']['width'], $button1 . $button2);
 	
-	$div	.= "      <div class=\"msgDiv\" id=\"msgDiv$id\"></div>\n";
+	$div	.= "    <div class=\"msgDiv\" id=\"msgDiv$id\"></div>\n";
 	
-	$div	.= "      <div class=\"clearboth\"></div>\n\n";
+	$div	.= "\n    <div class=\"clearboth\"></div>\n\n";
 	
 	return $div;
 }
@@ -294,24 +277,23 @@ function BuildTable() {
 	$number = 0;
 	
 	if ($flag == 'add') {
-		$flag == 'edit';
-		$table .= rowHTML(-1, 1, 1, 1);
+		#$flag = 'edit';
+		$table .= rowHTML(0, 1, 1, 1);
 	}
 		
 	foreach ($ra as $entry) {
 	
 		$number++;
 		
-		$id		= $entry['id'];
-	
-		$forceEdit	= 0;
+		$id				= $entry['id'];
+		$forceEdit		= 0;
 		$showButtons	= 0;
 		
 		if ($loggedin == 1) $showButtons = 1;
 		
-		if ( ($flag == 'edit') && ($id == $idnum) ) $forceEdit = 1;
-		if ( ($flag == 'edit') && ($id != $idnum) ) $showButtons = 0;
-		if ( ($flag == 'add')  ) $showButtons = 0;
+		if ( ($flag == 'edit') && ($id == $idnum)	) $forceEdit	= 1;
+		if ( ($flag == 'edit') && ($id != $idnum)	) $showButtons	= 0;
+		if ( ($flag == 'add')						) $showButtons	= 0;
 		
 		$table .= rowHTML($number, $entry, $forceEdit, $showButtons);
 	}

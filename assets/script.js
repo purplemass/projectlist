@@ -157,8 +157,8 @@ function saveRecord(n) {
 		v.focus()
 	}
 
-	deleteLast(n) 
-	
+	if (n==undefined) n = ''
+	deleteLast(n)
 	msgLayer = document.getElementById('msgDiv' + n);
 	msgLayer.innerHTML = msg;
 	msgLayer.top = 125 + 'px';

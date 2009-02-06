@@ -85,20 +85,23 @@ $html = <<<EOF
 </head>
 <body onLoad="showEdit($focusName)">
 <div id="pageTitle">
-<h1>$title</h1>
-<h2>$displayDate $displayTime</h2>
+  <h1>$title</h1>
+  <h2>$displayDate $displayTime</h2>
 </div>
-<div id="msgDiv" class="msgDiv">$msg</div>
 <div id="logIn">$loginForm</div>
 <div id="pageBody">
-<form method="POST" action="$thisScript" name="mainform" id="mainform">
-<input type="$hiddenType" name="flag" value="$flag">
-<input type="$hiddenType" name="idnum" value="$idnum">
-<input type="$hiddenType" name="loggedin" value="$loggedin">
-<div style="float: left">$topButton2</div>
-<div class="clearboth"></div>
+  <div id="msgDivMain">$msg</div>
+  <form method="POST" action="$thisScript" name="mainform" id="mainform">
+    <input type="$hiddenType" name="flag" value="$flag">
+    <input type="$hiddenType" name="idnum" value="$idnum">
+    <input type="$hiddenType" name="loggedin" value="$loggedin">
+
+    <div id="topButtons" style="float: left">$topButton2</div>
+
+    <div class="clearboth"></div>
+
 $table
-</form>
+  </form>
 </div>
 </body>
 </html>
