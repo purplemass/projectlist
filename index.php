@@ -1,7 +1,5 @@
 <?php
 
-# change: to get it up to  the github server
-
 ################################################################
 
 # list.php
